@@ -28,7 +28,7 @@
     },
     "rules": {
       "prettier/prettier": "error",
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".ts", "tsx"] }],
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".ts", "tsx",".scss"] }],
       "react/jsx-props-no-spreading": "off",
       "react/button-has-type": "off",
       "@typescript-eslint/explicit-function-return-type": 2,

@@ -11,6 +11,7 @@
   align-items: center;
   @include custom-font;
   cursor: pointer;
+  transition: all 0.3s ease;
 
   &:hover {
     color: white;

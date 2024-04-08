@@ -21,4 +21,8 @@ body,
 
 .add-list-button {
   @include button-style(35px, auto);
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
