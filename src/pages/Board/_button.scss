@@ -1,0 +1,18 @@
+@mixin button-style($height, $width) {
+  position: relative;
+  height: $height;
+  width: $width;
+  background-color: $add-button-color;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  @include custom-font;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
+}

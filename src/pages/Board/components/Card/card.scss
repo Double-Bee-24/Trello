@@ -1,0 +1,15 @@
+@import 'variables';
+@import '../../reset';
+
+.card-item {
+  background-color: $card-color;
+  border-radius: 7px;
+  height: auto;
+  padding: 5px;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 7px 0;
+}

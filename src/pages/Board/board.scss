@@ -1,0 +1,24 @@
+@import 'variables';
+@import 'reset';
+@import 'button';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.board-item {
+  background-color: $board-color;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 50px;
+  @include custom-font;
+}
+
+.add-list-button {
+  @include button-style(35px, auto);
+}

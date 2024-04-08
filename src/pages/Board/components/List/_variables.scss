@@ -1,0 +1,11 @@
+$list-color: #95f1fa;
+$add-button-color: #7890bf;
+
+$raleway-font: 'Raleway', sans-serif;
+
+@mixin custom-font {
+  font-family: $raleway-font;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}

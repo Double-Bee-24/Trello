@@ -1,0 +1,32 @@
+@import 'variables';
+@import '../../reset';
+@import '../../button';
+
+.list-item {
+  background-color: $list-color;
+  width: 230px;
+  height: fit-content;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 0 10px;
+  justify-content: space-between;
+  @include custom-font;
+}
+
+.add-card-button {
+  @include button-style(25px, 60%);
+  transition: all 0.3s ease;
+  margin-top: 12px;
+
+  &:hover {
+    color: white;
+    width: 100%;
+  }
+}
+
+.list-name {
+  margin-bottom: 12px;
+}
