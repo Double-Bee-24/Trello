@@ -1,6 +1,13 @@
-@import 'variables';
-@import 'reset';
-@import 'button';
+@import '../../styles/button';
+@import '../../styles/reset';
+@import '../../styles/variables';
+@import '../../styles/input';
+
+@mixin center-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 html,
 body,
@@ -12,17 +19,58 @@ body,
   background-color: $board-color;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  padding: 50px;
+  overflow: auto;
+  white-space: nowrap;
   @include custom-font;
+
+  scrollbar-color: #fff6 #00000026;
+  scrollbar-width: auto;
 }
 
 .add-list-button {
   @include button-style(35px, auto);
+  display: inline-block;
 
   &:hover {
     opacity: 0.8;
   }
+}
+
+.title-container {
+  padding-top: 20px;
+  padding-left: 50px;
+  background: rgba($color: #000000, $alpha: 0.2);
+  width: 100%;
+  height: 60px;
+  display: block;
+  color: white;
+  position: fixed;
+
+  input {
+    @include input-styles(grey, #c8ddf3);
+  }
+}
+
+.form-change-color-container {
+  position: absolute;
+  left: 50px;
+  bottom: 50px;
+  font-size: 16px;
+
+  @include center-flex;
+
+  background: rgba(0, 0, 0, 0.2);
+  width: 150px;
+  height: 45px;
+
+  input {
+    background: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.lists-container {
+  margin: 80px 0 0 50px;
 }

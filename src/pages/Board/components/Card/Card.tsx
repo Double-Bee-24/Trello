@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { CardRenameForm } from './CardRenameForm/CardRenameForm';
+import { ICard } from '../../../../common/interfaces/ICard';
 import './card.scss';
 
-interface CardProps {
-  title: string;
-}
+export function Card({ title, listId, cardId, setShouldListBeRefreshed }: ICard): JSX.Element {
+  const [isCardTitleClicked, setIsCardTitleClicked] = useState(false);
 
-export function Card({ title }: CardProps): JSX.Element {
-  return <div className="card-item">{title}</div>;
+  function handleClick(): void {
+    setIsCardTitleClicked(true);
+  }
+
+  return (
+    <div className="card-item" onClick={handleClick}>
+      {isCardTitleClicked ? (
+        <CardRenameForm
+          setIsCardTitleClicked={setIsCardTitleClicked}
+          title={title}
+          listId={listId}
+          cardId={cardId}
+          setShouldListBeRefreshed={setShouldListBeRefreshed}
+        />
+      ) : (
+        title
+      )}
+    </div>
+  );
 }

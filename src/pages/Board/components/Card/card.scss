@@ -1,8 +1,8 @@
-@import 'variables';
-@import '../../reset';
+@import '../../../../styles/variables';
+@import '../../../../styles/reset';
 
 .card-item {
-  background-color: $card-color;
+  background-color: $card-bg;
   border-radius: 7px;
   height: auto;
   padding: 5px;

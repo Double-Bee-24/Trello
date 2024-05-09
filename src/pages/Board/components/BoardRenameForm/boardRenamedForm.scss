@@ -1,0 +1,19 @@
+@import '../../../../styles/input';
+
+.invisible {
+  visibility: hidden;
+}
+
+.board-rename-form-container {
+  display: flex;
+
+  form {
+    display: inline-block;
+
+    input {
+      &::placeholder {
+        color: white;
+      }
+    }
+  }
+}

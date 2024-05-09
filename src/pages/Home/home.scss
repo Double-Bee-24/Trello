@@ -1,0 +1,25 @@
+@import '../../styles/reset';
+@import '../../styles/font';
+
+* {
+  @include custom-font;
+}
+
+.home-item {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px 0 0 20px;
+
+  .create-board-button {
+    background: #a0a0a0;
+    width: 175px;
+    height: 80px;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 15px;
+  }
+
+  a {
+    margin: 15px;
+  }
+}

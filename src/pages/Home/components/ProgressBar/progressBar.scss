@@ -1,0 +1,34 @@
+@import '../../../../styles/dark-bg';
+
+.progress-bar {
+  height: 25px;
+  width: 325px;
+  background: black;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.filler {
+  height: 17px;
+  background: #759cbf;
+  border-radius: 7px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  // transition: all 0.3s ease;
+  position: absolute;
+  left: 5px;
+}
+
+.dark-bg {
+  @include dark-bg;
+}

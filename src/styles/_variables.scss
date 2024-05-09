@@ -1,7 +1,17 @@
 $board-color: #92d1ae;
 $add-button-color: #1b9688;
 
+$board-modal-bg: #a4bdfa;
+$create-button-bg: #fcfa82;
+$input-bg: #c8ddf3;
+$input-border: #033e8c;
+
 $raleway-font: 'Raleway', sans-serif;
+
+$list-color: #95f1fa;
+$list-button-color: #7890bf;
+
+$card-bg: #9bbff8;
 
 @mixin custom-font {
   font-family: $raleway-font;

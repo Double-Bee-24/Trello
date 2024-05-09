@@ -2,14 +2,15 @@ import React from 'react';
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Board } from './pages/Board/Board';
+import { Home } from './pages/Home/Home';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div>React app main page</div>,
+    element: <Home />,
   },
   {
-    path: '/board',
+    path: '/board/:boardId',
     element: <Board />,
   },
 ]);

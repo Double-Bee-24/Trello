@@ -1,4 +1,6 @@
 export interface ICard {
-  id: number;
   title: string;
+  listId: number;
+  cardId: number;
+  setShouldListBeRefreshed: (shouldListBeRefreshed: boolean) => void;
 }
