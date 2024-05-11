@@ -14,11 +14,7 @@ export function Board(): JSX.Element {
   const [title, setTitle] = useState('');
   const [lists, setLists] = useState<ILists[]>([]);
 
-  // List should have 'position' value, if there are list already, this 'position' is received from last list
-  const [lastListPosition, setLastListPosition] = useState(0);
-
   const [boardColor, setBoardColor] = useState('#92D1AE');
-  const [newBoardColor, setNewBoardColor] = useState('');
 
   // Controls wether form should be displayed or button which leads to form
   const [isTitleClicked, setIsTitleClicked] = useState(false);
@@ -29,16 +25,12 @@ export function Board(): JSX.Element {
   const { boardId } = useParams();
 
   useEffect(() => {
-    fetchBoard(boardId, setLists, setLastListPosition, setTitle, setShouldListBeRefreshed, setBoardColor);
-  }, [isAddListButtonClicked, shouldListBeRefreshed]);
+    fetchBoard(boardId, setLists, setTitle, setShouldListBeRefreshed, setBoardColor);
+  }, [shouldListBeRefreshed]);
 
   function handleClick(): void {
     setIsTitleClicked(true);
     setIsAddListButtonClicked(false);
-  }
-
-  function handleOnAddList(): void {
-    setIsAddListButtonClicked(true);
   }
 
   const listComponents = lists.map((item) => (
@@ -52,13 +44,13 @@ export function Board(): JSX.Element {
   ));
 
   function handleColorChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    setNewBoardColor(e.target.value);
+    setBoardColor(e.target.value);
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    changeBoardColor(boardId, newBoardColor, setShouldListBeRefreshed);
+    changeBoardColor(boardId, boardColor, setShouldListBeRefreshed);
   }
 
   const boardItemStyle = {
@@ -82,9 +74,18 @@ export function Board(): JSX.Element {
       <div className="lists-container">
         {listComponents}
         {isAddListButtonClicked ? (
-          <AddListForm lastListPosition={lastListPosition} setIsAddListButtonClicked={setIsAddListButtonClicked} />
+          <AddListForm
+            lastListPosition={lists.length}
+            setIsAddListButtonClicked={setIsAddListButtonClicked}
+            setShouldListBeRefreshed={setShouldListBeRefreshed}
+          />
         ) : (
-          <button className="add-list-button" onClick={handleOnAddList}>
+          <button
+            className="add-list-button"
+            onClick={(): void => {
+              setIsAddListButtonClicked(true);
+            }}
+          >
             Створити список
           </button>
         )}

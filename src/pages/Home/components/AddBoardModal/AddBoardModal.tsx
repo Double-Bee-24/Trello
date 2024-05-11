@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './addBoardModal.scss';
 import { postBoard } from '../../../../api/request';
 import { IAddBoardModal } from '../../../../common/interfaces/IAddBoardModal';
 import { IBoard } from '../../../../common/interfaces/IBoard';
-import { InputComponent } from '../../../Misc/InputComponent/InputComponent';
 
 export function AddBoardModal({ setIsOpen, setIsBoardCreated }: IAddBoardModal): JSX.Element {
   const [board, setBoard] = useState<IBoard>({

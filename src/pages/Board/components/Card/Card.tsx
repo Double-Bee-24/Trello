@@ -6,12 +6,13 @@ import './card.scss';
 export function Card({ title, listId, cardId, setShouldListBeRefreshed }: ICard): JSX.Element {
   const [isCardTitleClicked, setIsCardTitleClicked] = useState(false);
 
-  function handleClick(): void {
-    setIsCardTitleClicked(true);
-  }
-
   return (
-    <div className="card-item" onClick={handleClick}>
+    <div
+      className="card-item"
+      onClick={(): void => {
+        setIsCardTitleClicked(true);
+      }}
+    >
       {isCardTitleClicked ? (
         <CardRenameForm
           setIsCardTitleClicked={setIsCardTitleClicked}

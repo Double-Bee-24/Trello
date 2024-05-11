@@ -6,7 +6,6 @@ import { IList } from '../../../../common/interfaces/IList';
 
 export function List({ title, cards, id, setShouldListBeRefreshed }: IList): JSX.Element {
   const [isAddCardButtonClicked, setIsAddCardButtonClicked] = useState(false);
-  const [lastCardPosition, setLastCardPosition] = useState(0);
 
   const cardElements = cards.map((item) => (
     <Card
@@ -22,13 +21,6 @@ export function List({ title, cards, id, setShouldListBeRefreshed }: IList): JSX
     setIsAddCardButtonClicked(true);
   }
 
-  useEffect(() => {
-    if (cards.length > 0) {
-      const lastPosition = cards[cards.length - 1].position;
-      setLastCardPosition(lastPosition);
-    }
-  }, [cards]);
-
   return (
     <div className="list-item">
       <span className="list-name">{title}</span>
@@ -38,7 +30,7 @@ export function List({ title, cards, id, setShouldListBeRefreshed }: IList): JSX
           setIsAddCardButtonClicked={setIsAddCardButtonClicked}
           setShouldListBeRefreshed={setShouldListBeRefreshed}
           listId={id}
-          lastCardPosition={lastCardPosition}
+          lastCardPosition={cards ? cards.length : 0}
         />
       ) : (
         <button className="add-card-button" onClick={handleClick}>

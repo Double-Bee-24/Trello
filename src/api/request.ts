@@ -20,7 +20,8 @@ const createList = async (
   boardId: string | undefined,
   listTitle: string,
   lastListPosition: number,
-  setIsAddListButtonClicked: (isAddListButtonClicked: boolean) => void
+  setIsAddListButtonClicked: (isAddListButtonClicked: boolean) => void,
+  setShouldListBeRefreshed: (shouldListBeRefreshed: boolean) => void
 ): Promise<void> => {
   try {
     await instance.post(`/board/${boardId}/list`, {
@@ -28,6 +29,7 @@ const createList = async (
       position: lastListPosition + 1,
     });
     setIsAddListButtonClicked(false);
+    setShouldListBeRefreshed(true);
   } catch (error) {
     console.error('Error while creating new list: ', error);
     const notify = (): void => {
@@ -88,7 +90,6 @@ const renameCard = async (
 const fetchBoard = async (
   boardId: string | undefined,
   setLists: (lists: ILists[]) => void,
-  setLastListPosition: (lastListPosition: number) => void,
   setTitle: (title: string) => void,
   setShouldListBeRefreshed: (shouldListBeRefreshed: boolean) => void,
   setBoardColor: (boardColor: string) => void
@@ -96,7 +97,6 @@ const fetchBoard = async (
   try {
     const response: IResponse = await instance.get(`/board/${boardId}`);
     setLists(response.lists);
-    setLastListPosition(response.lists.length);
     setTitle(response.title);
     setShouldListBeRefreshed(false);
 

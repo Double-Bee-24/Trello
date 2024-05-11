@@ -5,23 +5,23 @@ import { IAddListForm } from '../../../../common/interfaces/IAddListForm';
 import './addListForm.scss';
 import { InputComponent } from '../../../Misc/InputComponent/InputComponent';
 
-export function AddListForm({ lastListPosition, setIsAddListButtonClicked }: IAddListForm): JSX.Element {
+export function AddListForm({
+  lastListPosition,
+  setIsAddListButtonClicked,
+  setShouldListBeRefreshed,
+}: IAddListForm): JSX.Element {
   const [listTitle, setListTitle] = useState('');
   const { boardId } = useParams();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    createList(boardId, listTitle, lastListPosition, setIsAddListButtonClicked);
+    createList(boardId, listTitle, lastListPosition, setIsAddListButtonClicked, setShouldListBeRefreshed);
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const changedListTitle = event.target.value;
     setListTitle(changedListTitle);
   };
-
-  function handleClick(): void {
-    setIsAddListButtonClicked(false);
-  }
 
   return (
     <form onSubmit={handleSubmit} className="addList-form">
@@ -35,7 +35,7 @@ export function AddListForm({ lastListPosition, setIsAddListButtonClicked }: IAd
         <button type="submit" className="add-button">
           Додати список
         </button>
-        <button onClick={handleClick} className="close-button">
+        <button onClick={(): void => setIsAddListButtonClicked(false)} className="close-button">
           X
         </button>
       </div>
