@@ -33,7 +33,7 @@ export function Home(): JSX.Element {
     <div className="home-item">
       {boardComponents}
       <button className="create-board-button" onClick={(): void => setIsOpen(true)}>
-        Створити дошку
+        Створити дошку{process.env.REACT_APP_API_URL}
       </button>
       {isOpen && <AddBoardModal setIsOpen={setIsOpen} setIsBoardCreated={setIsBoardCreated} />}
       {isLoading && <ProgressBar progress={loadingProgress} />}
