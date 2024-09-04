@@ -4,20 +4,20 @@ import { createCard } from '../../../../../api/request';
 import { IAddCardForm } from '../../../../../common/interfaces/IAddCardForm';
 import './addCardForm.scss';
 import { InputComponent } from '../../../../Misc/InputComponent/InputComponent';
+import { useAppDispatch } from '../../../../../app/hooks';
+import { triggerBoardRefresh } from '../../../boardSlice';
 
-export function AddCardForm({
-  setIsAddCardButtonClicked,
-  setShouldListBeRefreshed, // for page refreshing after adding a new card
-  listId,
-  lastCardPosition,
-}: IAddCardForm): JSX.Element {
-  const { boardId } = useParams();
+export function AddCardForm({ setIsAddCardButtonClicked, listId, lastCardPosition }: IAddCardForm): JSX.Element {
   const [cardTitle, setCardTitle] = useState('');
+  const { boardId } = useParams();
+  const dispatch = useAppDispatch();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    createCard(boardId, cardTitle, listId, lastCardPosition, setIsAddCardButtonClicked, setShouldListBeRefreshed);
+    createCard(boardId, cardTitle, listId, lastCardPosition, setIsAddCardButtonClicked, () =>
+      dispatch(triggerBoardRefresh())
+    );
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -30,6 +30,7 @@ export function AddCardForm({
         placeholder="Ввести назву для цієї картки..."
         setShouldInputBeOpen={setIsAddCardButtonClicked}
         handleChange={handleChange}
+        value={cardTitle}
         isAddForm
       />
       <div className="actionButtons-container">

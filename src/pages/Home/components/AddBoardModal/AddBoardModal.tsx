@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import './addBoardModal.scss';
 import { postBoard } from '../../../../api/request';
 import { IAddBoardModal } from '../../../../common/interfaces/IAddBoardModal';
-import { IBoard } from '../../../../common/interfaces/IBoard';
+import { IBoardsList } from '../../../../common/interfaces/IBoardsList';
 
 export function AddBoardModal({ setIsOpen, setIsBoardCreated }: IAddBoardModal): JSX.Element {
-  const [board, setBoard] = useState<IBoard>({
+  const [board, setBoard] = useState<IBoardsList>({
     title: '',
     custom: {
       color: '',

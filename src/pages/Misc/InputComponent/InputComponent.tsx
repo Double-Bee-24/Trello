@@ -1,13 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { IInputComponent } from '../../../common/interfaces/IInputComponent';
 
 export function InputComponent({
-  setShouldInputBeOpen,
+  setShouldInputBeOpen = (): void => {},
   handleChange,
-  placeholder,
-  className,
-  value,
-  isAddForm,
+  placeholder = '',
+  className = '',
+  value = '',
+  isAddForm = false,
 }: IInputComponent): JSX.Element {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -35,10 +35,3 @@ export function InputComponent({
     />
   );
 }
-
-InputComponent.defaultProps = {
-  placeholder: '',
-  className: '',
-  value: undefined,
-  isAddForm: false,
-};

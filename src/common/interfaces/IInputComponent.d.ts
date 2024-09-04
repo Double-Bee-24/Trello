@@ -1,5 +1,5 @@
 export interface IInputComponent {
-  setShouldInputBeOpen: (shouldInputBeOpen: boolean) => void;
+  setShouldInputBeOpen?: (shouldInputBeOpen: boolean) => void;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   className?: string;

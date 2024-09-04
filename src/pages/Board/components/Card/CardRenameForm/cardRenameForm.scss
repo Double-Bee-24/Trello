@@ -1,11 +1,18 @@
 .rename-add-card-form {
   input {
+    position: relative;
     background: #d5f0d9;
     border: none;
+    border-radius: 3px;
     outline: none;
     border-color: #7699dd;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     font-size: inherit;
+
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    line-height: 1.5;
 
     &:focus {
       background: #d5f0d9;

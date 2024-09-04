@@ -1,8 +1,21 @@
 export interface IBoard {
-  id?: number;
   title: string;
-  custom?: {
+  custom: {
     color: string;
-    description: string;
   };
+  lists: {
+    id: number;
+    title: string;
+    position: number;
+    cards: {
+      id: number;
+      title: string;
+      position: number;
+      description: string;
+    }[];
+  }[];
+  users: {
+    id: number;
+    username: string;
+  }[];
 }

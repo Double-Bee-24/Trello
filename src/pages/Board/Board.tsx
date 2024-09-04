@@ -2,31 +2,56 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { List } from './components/List/List';
 import { BoardRenameForm } from './components/BoardRenameForm/BoardRenameForm';
 import { AddListForm } from './components/AddListForm/AddListForm';
-import { ILists } from '../../common/interfaces/ILists';
-import { fetchBoard, changeBoardColor } from '../../api/request';
-
+import { CardModal } from './components/CardModal/CardModal';
+import { getBoards, refreshList } from '../../api/request';
+import {
+  triggerBoardRefresh,
+  resetBoardRefreshStatus,
+  fetchBoard,
+  setBoardsList,
+  setIsDropAreaActive,
+  resetUpdatedCards,
+} from './boardSlice';
+import { BoardMenu } from './components/BoardMenu/BoardMenu';
 import './board.scss';
 
 export function Board(): JSX.Element {
-  const [title, setTitle] = useState('');
-  const [lists, setLists] = useState<ILists[]>([]);
-
-  const [boardColor, setBoardColor] = useState('#92D1AE');
-
   // Controls wether form should be displayed or button which leads to form
   const [isTitleClicked, setIsTitleClicked] = useState(false);
   const [isAddListButtonClicked, setIsAddListButtonClicked] = useState(false);
+  const [isBoardMenuOpened, setIsBoardMenuOpened] = useState(false);
+  const [boards, setBoards] = useState([]);
 
-  const [shouldListBeRefreshed, setShouldListBeRefreshed] = useState(false);
+  const board = useAppSelector((state) => state.board.wholeBoard);
+  const shouldBoardBeRefreshed = useAppSelector((state) => state.board.shouldBoardBeRefreshed);
+  const isCardModalOpen = useAppSelector((state) => state.board.isCardModalOpen);
+  const updatedCards = useAppSelector((state) => state.board.updatedCards);
 
+  const boardColor = board.custom.color;
+  const { lists } = board;
+
+  const dispatch = useAppDispatch();
   const { boardId } = useParams();
 
   useEffect(() => {
-    fetchBoard(boardId, setLists, setTitle, setShouldListBeRefreshed, setBoardColor);
-  }, [shouldListBeRefreshed]);
+    dispatch(resetBoardRefreshStatus());
+    dispatch(fetchBoard({ boardId }));
+    getBoards(setBoards);
+
+    if (isCardModalOpen) {
+      // Set data to 'selectedBoard' state, which is used to have options while moving a card between boards
+      const isSelectedBoard = true;
+      dispatch(fetchBoard({ boardId, isSelectedBoard }));
+    }
+  }, [shouldBoardBeRefreshed]);
+
+  useEffect(() => {
+    dispatch(setBoardsList(boards));
+  });
 
   function handleClick(): void {
     setIsTitleClicked(true);
@@ -34,51 +59,52 @@ export function Board(): JSX.Element {
   }
 
   const listComponents = lists.map((item) => (
-    <List
-      key={item.id}
-      title={item.title}
-      cards={item.cards}
-      id={item.id}
-      setShouldListBeRefreshed={setShouldListBeRefreshed}
-    />
+    <List key={item.id} title={item.title} listCards={item.cards} id={item.id} boardId={boardId} />
   ));
-
-  function handleColorChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    setBoardColor(e.target.value);
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
-    e.preventDefault();
-
-    changeBoardColor(boardId, boardColor, setShouldListBeRefreshed);
-  }
 
   const boardItemStyle = {
     // For passing color from React to css
     backgroundColor: boardColor,
   };
 
+  const handleDrop = (e: React.DragEvent): void => {
+    e.preventDefault();
+
+    dispatch(setIsDropAreaActive(false));
+
+    refreshList(boardId, updatedCards, () => triggerBoardRefresh());
+    dispatch(triggerBoardRefresh());
+    dispatch(resetUpdatedCards());
+  };
+
+  const handleDragOver = (e: React.DragEvent): void => {
+    e.preventDefault();
+  };
+
   return (
-    <div className="board-item" style={boardItemStyle}>
-      <div className="title-container" onClick={handleClick}>
-        {isTitleClicked ? (
-          <BoardRenameForm
-            setIsTitleClicked={setIsTitleClicked}
-            title={title}
-            setShouldListBeRefreshed={setShouldListBeRefreshed}
+    <div className="board-item" style={boardItemStyle} onDrop={handleDrop} onDragOver={handleDragOver}>
+      <div className="title-container">
+        <div className={`title-wrapper ${isTitleClicked ? 'hidden' : ''}`} onClick={handleClick}>
+          {isTitleClicked ? <BoardRenameForm setIsTitleClicked={setIsTitleClicked} title={board.title} /> : board.title}
+        </div>
+        <div
+          className="board-menu-button-wrapper"
+          onClick={() => {
+            setIsBoardMenuOpened(true);
+          }}
+        >
+          <img
+            src="/assets/three-dots.png"
+            alt="menu button"
+            className={`board-menu-button ${isBoardMenuOpened ? 'menu-button-hidden' : ''}`}
           />
-        ) : (
-          title
-        )}
+        </div>
+        {isBoardMenuOpened && <BoardMenu boardId={boardId} setIsBoardMenuOpened={setIsBoardMenuOpened} />}
       </div>
       <div className="lists-container">
         {listComponents}
         {isAddListButtonClicked ? (
-          <AddListForm
-            lastListPosition={lists.length}
-            setIsAddListButtonClicked={setIsAddListButtonClicked}
-            setShouldListBeRefreshed={setShouldListBeRefreshed}
-          />
+          <AddListForm lastListPosition={lists.length} setIsAddListButtonClicked={setIsAddListButtonClicked} />
         ) : (
           <button
             className="add-list-button"
@@ -90,12 +116,7 @@ export function Board(): JSX.Element {
           </button>
         )}
       </div>
-      <div className="form-change-color-container">
-        Змінити колір:
-        <form onSubmit={handleSubmit} onBlur={handleSubmit}>
-          <input type="color" value={boardColor || '#92D1AE'} onChange={handleColorChange} />
-        </form>
-      </div>
+      {isCardModalOpen && <CardModal />}
       <ToastContainer />
     </div>
   );

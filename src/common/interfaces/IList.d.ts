@@ -1,14 +1,12 @@
 export interface IList {
   title: string;
-  cards: [
-    {
-      title: string;
-      id: number;
-      position: number;
-      description: string;
-      custom?: { deadline: string };
-    },
-  ];
+  listCards: {
+    id: number;
+    title: string;
+    position: number;
+    description?: string;
+    custom?: { deadline: string } | undefined;
+  }[];
+  boardId: string | undefined;
   id: number;
-  setShouldListBeRefreshed: (shouldListBeRefreshed: boolean) => void;
 }
