@@ -111,7 +111,7 @@ export function Card({ position, cardId, listId, title, listTitle, cardDescripti
       {isCardTitleClicked ? (
         <CardRenameForm setIsCardTitleClicked={setIsCardTitleClicked} title={title} listId={listId} cardId={cardId} />
       ) : (
-        `${title}, ${position}`
+        title
       )}
       <div
         className="redacting-mark-wrapper"
