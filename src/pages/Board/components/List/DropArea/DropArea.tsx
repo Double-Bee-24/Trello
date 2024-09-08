@@ -25,7 +25,8 @@ export function DropArea({
   };
 
   // For css
-  const dropAreaClasses = `drop-area ${isFirst ? 'first-drop' : ''} ${isDropAreaActive ? 'active-drop' : ''} ${isLast ? 'last-drop' : ''}`;
+  const dropAreaClasses = `drop-area ${isFirst ? 'first-drop' : ''}
+    ${isDropAreaActive ? 'active-drop' : ''} ${isLast ? 'last-drop' : ''}`;
 
   return (
     <section className={dropAreaClasses} onDragOver={handleDragOver}>

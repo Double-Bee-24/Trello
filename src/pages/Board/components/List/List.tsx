@@ -4,7 +4,7 @@ import { Card } from '../Card/Card';
 import { DropArea } from './DropArea/DropArea';
 import { AddCardForm } from './AddCardForm/AddCardForm';
 import { IList } from '../../../../common/interfaces/IList';
-import { setUpdatedCards } from '../../boardSlice';
+import { setListToDropId, setUpdatedCards } from '../../boardSlice';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { AppDispatch } from '../../../../app/store';
 
@@ -25,13 +25,6 @@ function refreshLists(
       { id: number; title: string; position: number; description?: string; custom?: { deadline: string } | undefined }[]
     >
   >,
-  cards: {
-    id: number;
-    title: string;
-    position: number;
-    description?: string;
-    custom?: { deadline: string } | undefined;
-  }[],
   draggedCardId: number,
   dispatch: AppDispatch
 ): void {
@@ -76,22 +69,14 @@ function refreshLists(
 
     setCards(listCardsCopy);
   } else {
-    // Remove dragged card from the list when this card leaves that list
-    const draggedCard = cards.find((item) => item.id === draggedCardId);
+    const listCardsCopy = listCards
+      .slice()
+      .filter((item) => item.id !== draggedCardId)
+      .map((item, index) => ({ ...item, position: index }));
 
-    if (draggedCard) {
-      const listCardsCopy = listCards
-        .slice()
-        .filter((item) => item.id !== draggedCardId)
-        .map((item, index) => ({ ...item, position: index }));
-
-      setCards(listCardsCopy);
-      const updatedCards = listCardsCopy.map((item) => ({ id: item.id, position: item.position, list_id: id }));
-      dispatch(setUpdatedCards(updatedCards));
-    } else {
-      const updatedCards = listCards.map((item) => ({ id: item.id, position: item.position, list_id: id }));
-      dispatch(setUpdatedCards(updatedCards));
-    }
+    setCards(listCardsCopy);
+    const updatedCards = listCardsCopy.map((item) => ({ id: item.id, position: item.position, list_id: id }));
+    dispatch(setUpdatedCards(updatedCards));
   }
 }
 
@@ -101,7 +86,6 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
   const [isAddCardButtonClicked, setIsAddCardButtonClicked] = useState(false);
   const [cards, setCards] = useState(listCards);
   const [isDragged, setIsDragged] = useState(false);
-  const [dragCounter, setDragCounter] = useState(0);
   const [draggedCardNewPosition, setDraggedCardNewPosition] = useState(-2);
 
   const draggedCardName = useAppSelector((state) => state.board.draggedCardName);
@@ -121,11 +105,11 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
       draggedCardName,
       draggedCardNewPosition,
       setCards,
-      cards,
       draggedCardId,
       dispatch
     );
-  }, [draggedCardNewPosition, listToDropId]);
+  }, [draggedCardNewPosition, listToDropId, listCards]);
+  // }, [listCards]);
 
   const sortedCards = cards.slice().sort((a, b) => a.position - b.position);
 
@@ -164,16 +148,8 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
     setIsAddCardButtonClicked(true);
   };
 
-  const handleDragEnter = (): void => {
-    setDragCounter(dragCounter + 1);
-  };
-
-  const handleDragLeave = (): void => {
-    setDragCounter(dragCounter - 1);
-  };
-
   return (
-    <div className="list-item" onDragEnter={handleDragEnter} onDragLeave={handleDragLeave}>
+    <div className="list-item">
       <span className="list-name">{title}</span>
       <div className="card-container">
         <DropArea
