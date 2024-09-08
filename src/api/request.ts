@@ -218,17 +218,32 @@ const removeBoard = async (boardId: string | undefined): Promise<void> => {
   }
 };
 
+const renameList = async (
+  boardId: string | undefined,
+  listId: number,
+  title: string,
+  triggerBoardRefresh: () => void
+): Promise<void> => {
+  try {
+    await instance.put(`/board/${boardId}/list/${listId}`, { title });
+    triggerBoardRefresh();
+  } catch (error) {
+    console.error('Cannot rename list: ', error);
+  }
+};
+
 export default instance;
 
 export {
   createList,
+  createCard,
   renameBoard,
   renameCard,
+  renameList,
+  removeCard,
+  removeBoard,
   getBoards,
   changeBoardColor,
-  createCard,
   postBoard,
-  removeCard,
   refreshList,
-  removeBoard,
 };

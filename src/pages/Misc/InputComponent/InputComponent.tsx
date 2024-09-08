@@ -17,7 +17,6 @@ export function InputComponent({
 
   const closeInput = (): void => {
     const inputValue = inputRef.current?.value || '';
-
     if (inputValue.length === 0 || !isAddForm) {
       setShouldInputBeOpen(false);
     }
@@ -32,6 +31,7 @@ export function InputComponent({
       onBlur={closeInput}
       className={className}
       value={value}
+      name="title"
     />
   );
 }

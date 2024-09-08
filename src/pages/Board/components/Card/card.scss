@@ -11,6 +11,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  height: 32px;
 
   word-wrap: break-word;
   word-break: break-all;
@@ -56,5 +57,5 @@
 }
 
 .redacting-hidden {
-  opacity: 0;
+  display: none;
 }

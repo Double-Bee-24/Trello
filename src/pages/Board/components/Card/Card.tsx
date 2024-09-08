@@ -114,17 +114,13 @@ export function Card({ position, cardId, listId, title, listTitle, cardDescripti
         title
       )}
       <div
-        className="redacting-mark-wrapper"
+        className={`redacting-mark-wrapper ${isCardTitleClicked || isDropAreaActive ? 'redacting-hidden' : ''} `}
         onClick={(e) => {
           e.stopPropagation();
           setIsCardTitleClicked(true);
         }}
       >
-        <img
-          src="/assets/reducting-mark.png"
-          alt="redacting mark"
-          className={`redacting-mark ${isDropAreaActive ? 'redacting-hidden' : ''}`}
-        />
+        <img src="/assets/reducting-mark.png" alt="redacting mark" className="redacting-mark" />
       </div>
     </div>
   );

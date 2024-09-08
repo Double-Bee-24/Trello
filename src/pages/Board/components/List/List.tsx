@@ -4,9 +4,10 @@ import { Card } from '../Card/Card';
 import { DropArea } from './DropArea/DropArea';
 import { AddCardForm } from './AddCardForm/AddCardForm';
 import { IList } from '../../../../common/interfaces/IList';
-import { setUpdatedCards } from '../../boardSlice';
+import { setUpdatedCards, triggerBoardRefresh } from '../../boardSlice';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { AppDispatch } from '../../../../app/store';
+import { ListRenameForm } from './ListRenameForm/ListRenameForm';
 
 function refreshLists(
   id: number,
@@ -67,6 +68,7 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
   const dispatch = useAppDispatch();
 
   const [isAddCardButtonClicked, setIsAddCardButtonClicked] = useState(false);
+  const [isListRenameActive, setIsListRenameActive] = useState(false);
   const [cards, setCards] = useState(listCards);
   const [draggedCardNewPosition, setDraggedCardNewPosition] = useState(-2);
 
@@ -107,7 +109,7 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
         cards={cards}
       />
       <DropArea
-        key={item.id}
+        key={item.id + 1}
         isFirst={false}
         isLast={index === sortedCards.length - 1}
         cardTitle={item.title}
@@ -120,11 +122,22 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
 
   const handleClick = (): void => {
     setIsAddCardButtonClicked(true);
+    const listTitle = 'Вода';
+  };
+
+  const handleListTitleClick = (): void => {
+    setIsListRenameActive(true);
   };
 
   return (
     <div className="list-item">
-      <span className="list-name">{title}</span>
+      <span className="list-name" onClick={handleListTitleClick}>
+        {isListRenameActive ? (
+          <ListRenameForm title={title} boardId={boardId} listId={id} setIsListRenameActive={setIsListRenameActive} />
+        ) : (
+          title
+        )}
+      </span>
       <div className="card-container">
         <DropArea
           isFirst
