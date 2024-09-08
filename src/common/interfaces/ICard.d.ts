@@ -4,9 +4,6 @@ export interface ICard {
   listId: number;
   cardId: number;
   position: number;
-  boardId: string | undefined;
-  isDragged: boolean;
-  setIsDragged: (isDragged: boolean) => void;
   listTitle: string;
   cardDescription: string | undefined;
   cards?: {

@@ -4,7 +4,7 @@ import { Card } from '../Card/Card';
 import { DropArea } from './DropArea/DropArea';
 import { AddCardForm } from './AddCardForm/AddCardForm';
 import { IList } from '../../../../common/interfaces/IList';
-import { setListToDropId, setUpdatedCards } from '../../boardSlice';
+import { setUpdatedCards } from '../../boardSlice';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { AppDispatch } from '../../../../app/store';
 
@@ -28,56 +28,39 @@ function refreshLists(
   draggedCardId: number,
   dispatch: AppDispatch
 ): void {
+  // Create copy of an array
+  let listCardsCopy = listCards.slice();
+
   if (id === listToDropId) {
     const draggedCard = listCards.find((item) => item.id === draggedCardId);
 
     // Position of DropArea is less then card by 1 by default
     const newPosition = draggedCardNewPosition + 1;
 
-    let listCardsCopy = listCards.slice();
-
     if (draggedCard) {
       // If the dragged card is in the same list and we found it, we change card's position
-      listCardsCopy = listCardsCopy.map((item) => {
-        if (item.id === draggedCardId) {
-          return { ...item, position: newPosition };
-        }
-        return item;
-      });
+      listCardsCopy = listCardsCopy.map((item) =>
+        item.id === draggedCardId ? { ...item, position: newPosition } : item
+      );
     } else {
-      // If the card in another list, we should create this card
+      // If the card is in another list, we should create this card
       listCardsCopy.push({ title: draggedCardName, id: draggedCardId, position: newPosition });
     }
-
     // Restore positions of all cards in the list
     listCardsCopy = listCardsCopy
-      .map((item) => {
-        if (item.id !== draggedCardId) {
-          if (item.position < newPosition) {
-            return { ...item, position: item.position - 1 };
-          }
-
-          return { ...item, position: item.position + 1 };
-        }
-
-        return item;
-      })
+      .map((item) =>
+        item.position >= newPosition && item.id !== draggedCardId ? { ...item, position: item.position + 1 } : item
+      )
       .sort((a, b) => a.position - b.position)
       .map((item, index) => ({ ...item, position: index }));
-    const updatedCards = listCardsCopy.map((item) => ({ id: item.id, position: item.position, list_id: id }));
-    dispatch(setUpdatedCards(updatedCards));
-
-    setCards(listCardsCopy);
   } else {
-    const listCardsCopy = listCards
-      .slice()
+    listCardsCopy = listCardsCopy
       .filter((item) => item.id !== draggedCardId)
       .map((item, index) => ({ ...item, position: index }));
-
-    setCards(listCardsCopy);
-    const updatedCards = listCardsCopy.map((item) => ({ id: item.id, position: item.position, list_id: id }));
-    dispatch(setUpdatedCards(updatedCards));
   }
+  setCards(listCardsCopy);
+  const updatedCards = listCardsCopy.map((item) => ({ id: item.id, position: item.position, list_id: id }));
+  dispatch(setUpdatedCards(updatedCards));
 }
 
 export function List({ title, listCards, id, boardId }: IList): JSX.Element {
@@ -85,7 +68,6 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
 
   const [isAddCardButtonClicked, setIsAddCardButtonClicked] = useState(false);
   const [cards, setCards] = useState(listCards);
-  const [isDragged, setIsDragged] = useState(false);
   const [draggedCardNewPosition, setDraggedCardNewPosition] = useState(-2);
 
   const draggedCardName = useAppSelector((state) => state.board.draggedCardName);
@@ -109,7 +91,6 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
       dispatch
     );
   }, [draggedCardNewPosition, listToDropId, listCards]);
-  // }, [listCards]);
 
   const sortedCards = cards.slice().sort((a, b) => a.position - b.position);
 
@@ -121,24 +102,17 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
         listId={id}
         cardId={item.id}
         position={item.position}
-        boardId={boardId}
-        isDragged={isDragged}
-        setIsDragged={setIsDragged}
         listTitle={title}
         cardDescription={item.description}
         cards={cards}
       />
       <DropArea
+        key={item.id}
         isFirst={false}
         isLast={index === sortedCards.length - 1}
-        boardId={boardId}
         cardTitle={item.title}
         listId={id}
         position={item.position}
-        setIsAddCardButtonClicked={setIsAddCardButtonClicked}
-        setIsDragged={setIsDragged}
-        cards={cards}
-        setCards={setCards}
         setDraggedCardNewPos={setDraggedCardNewPosition}
       />
     </div>
@@ -155,14 +129,9 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
         <DropArea
           isFirst
           isLast={sortedCards.length === 0}
-          boardId={boardId}
           cardTitle="title"
           listId={id}
           position={-1}
-          setIsAddCardButtonClicked={setIsAddCardButtonClicked}
-          setIsDragged={setIsDragged}
-          cards={sortedCards}
-          setCards={setCards}
           setDraggedCardNewPos={setDraggedCardNewPosition}
         />
       </div>

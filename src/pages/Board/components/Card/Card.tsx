@@ -13,40 +13,26 @@ import {
 } from '../../boardSlice';
 import './card.scss';
 
-export function Card({
-  setIsDragged,
-  position,
-  cardId,
-  listId,
-  title,
-  listTitle,
-  cardDescription,
-  cards = [],
-}: ICard): JSX.Element {
+export function Card({ position, cardId, listId, title, listTitle, cardDescription, cards = [] }: ICard): JSX.Element {
   const [isCardTitleClicked, setIsCardTitleClicked] = useState(false);
-
-  const board = useAppSelector((state) => state.board.wholeBoard);
-  const { lists } = board;
 
   const draggedCardId = useAppSelector((state) => state.board.draggedCardId);
   const isCardModalOpen = useAppSelector((state) => state.board.isCardModalOpen);
-
   const isDropAreaActive = useAppSelector((state) => state.board.isDropAreaActive);
-  const dispatch = useAppDispatch();
+  const board = useAppSelector((state) => state.board.wholeBoard);
+  const { lists } = board;
 
-  const { boardId } = useParams();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const { boardId } = useParams();
 
   const handleOnDragStart = (e: React.DragEvent, draggedCard: string): void => {
     e.dataTransfer.setData('card', draggedCard);
 
     dispatch(setIsDropAreaActive(true));
-
     dispatch(setDraggedCardId(cardId));
     dispatch(setDraggedCardName(title));
-
-    setIsDragged(true);
   };
 
   const handleClick = (): void => {
@@ -111,9 +97,11 @@ export function Card({
     }
   }, [location]);
 
+  const cardClasses = `card-item ${isDropAreaActive && cardId === draggedCardId ? 'semi-visible' : ''}`;
+
   return (
     <div
-      className={`card-item ${isDropAreaActive && cardId === draggedCardId ? 'fish' : ''}`}
+      className={cardClasses}
       onClick={handleClick}
       draggable="true"
       onDragStart={(e) => {
@@ -123,7 +111,7 @@ export function Card({
       {isCardTitleClicked ? (
         <CardRenameForm setIsCardTitleClicked={setIsCardTitleClicked} title={title} listId={listId} cardId={cardId} />
       ) : (
-        title
+        `${title}, ${position}`
       )}
       <div
         className="redacting-mark-wrapper"
