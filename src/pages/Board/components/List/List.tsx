@@ -4,7 +4,7 @@ import { Card } from '../Card/Card';
 import { DropArea } from './DropArea/DropArea';
 import { AddCardForm } from './AddCardForm/AddCardForm';
 import { IList } from '../../../../common/interfaces/IList';
-import { setUpdatedCards, triggerBoardRefresh } from '../../boardSlice';
+import { setUpdatedCards } from '../../boardSlice';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { AppDispatch } from '../../../../app/store';
 import { ListRenameForm } from './ListRenameForm/ListRenameForm';
@@ -72,9 +72,7 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
   const [cards, setCards] = useState(listCards);
   const [draggedCardNewPosition, setDraggedCardNewPosition] = useState(-2);
 
-  const draggedCardName = useAppSelector((state) => state.board.draggedCardName);
-  const draggedCardId = useAppSelector((state) => state.board.draggedCardId);
-  const listToDropId = useAppSelector((state) => state.board.listToDropId);
+  const { draggedCardName, draggedCardId, listToDropId } = useAppSelector((state) => state.board);
 
   useEffect(() => {
     setCards(listCards);
@@ -122,7 +120,6 @@ export function List({ title, listCards, id, boardId }: IList): JSX.Element {
 
   const handleClick = (): void => {
     setIsAddCardButtonClicked(true);
-    const listTitle = 'Вода';
   };
 
   const handleListTitleClick = (): void => {

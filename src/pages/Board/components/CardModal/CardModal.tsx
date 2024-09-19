@@ -15,15 +15,16 @@ export function CardModal(): JSX.Element {
     listId,
     cardPosition,
   } = useAppSelector((state) => state.board.clickedCard);
+  const board = useAppSelector((state) => state.board.wholeBoard);
+  const { lists } = board;
 
   const [isCardActionMenuOpen, setIsCardActionMenuOpen] = useState(false);
   const [isMoveButtonClicked, setIsMoveButtonClicked] = useState(false);
   const [isCopyButtonClicked, setIsCopyButtonClicked] = useState(false);
   const [clickedButton, setClickedButton] = useState('');
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { boardId } = useParams();
-  const board = useAppSelector((state) => state.board.wholeBoard);
-  const { lists } = board;
 
   useEffect(() => {
     if (isCopyButtonClicked) {
@@ -36,8 +37,6 @@ export function CardModal(): JSX.Element {
     setIsCopyButtonClicked(false);
     setIsMoveButtonClicked(false);
   }, [isCardActionMenuOpen]);
-
-  const dispatch = useAppDispatch();
 
   const handleClose = (): void => {
     navigate(`/board/${boardId}`);

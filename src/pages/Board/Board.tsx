@@ -26,10 +26,12 @@ export function Board(): JSX.Element {
   const [isBoardMenuOpened, setIsBoardMenuOpened] = useState(false);
   const [boards, setBoards] = useState([]);
 
-  const board = useAppSelector((state) => state.board.wholeBoard);
-  const shouldBoardBeRefreshed = useAppSelector((state) => state.board.shouldBoardBeRefreshed);
-  const isCardModalOpen = useAppSelector((state) => state.board.isCardModalOpen);
-  const updatedCards = useAppSelector((state) => state.board.updatedCards);
+  const {
+    wholeBoard: board,
+    shouldBoardBeRefreshed,
+    isCardModalOpen,
+    updatedCards,
+  } = useAppSelector((state) => state.board);
 
   const boardColor = board.custom.color;
   const { lists } = board;

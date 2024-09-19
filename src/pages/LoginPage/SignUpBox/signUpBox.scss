@@ -1,0 +1,47 @@
+.signup-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 235px;
+  margin-bottom: 5px;
+}
+
+.input-container p {
+  margin-bottom: 3px;
+}
+
+.signup-subtitle {
+  margin-bottom: 20px;
+}
+
+.password-bar {
+  border: 3px solid;
+  border-radius: 5px;
+  transition: all ease 1s;
+  opacity: 0;
+}
+
+.red {
+  opacity: 1;
+  width: 25%;
+  color: red;
+}
+
+.orange {
+  opacity: 1;
+  width: 50%;
+  color: orange;
+}
+
+.yellow {
+  opacity: 1;
+  width: 75%;
+  color: yellow;
+}
+
+.green {
+  opacity: 1;
+  width: 100%;
+  color: rgb(75, 186, 53);
+}

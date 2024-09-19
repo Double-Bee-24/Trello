@@ -5,15 +5,34 @@ import { Board } from './pages/Board/Board';
 import { Home } from './pages/Home/Home';
 import { store } from './app/store';
 import { CardModal } from './pages/Board/components/CardModal/CardModal';
+import { LoginPage } from './pages/LoginPage/LoginPage';
+import { ProtectedRoute } from './pages/Misc/ProtectedRoute/ProtectedRoute';
+import { PublicRoute } from './pages/Misc/PublicRoute/PublicRoute';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/login',
+    element: (
+      <PublicRoute>
+        <LoginPage />
+      </PublicRoute>
+    ),
   },
   {
     path: '/board/:boardId/*',
-    element: <Board />,
+    element: (
+      <ProtectedRoute>
+        <Board />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: 'card/:cardId',

@@ -5,6 +5,7 @@ import instance from '../../api/axiosConfig';
 import { ILists } from '../../common/interfaces/ILists';
 import { IBoardsList } from '../../common/interfaces/IBoardsList';
 import { IBoard } from '../../common/interfaces/IBoard';
+import { IUser } from '../../common/interfaces/IUser';
 import type { RootState } from '../../app/store';
 
 interface LightCard {
@@ -54,6 +55,10 @@ export interface BoardState {
   isDropAreaActive: boolean;
 
   updatedCards: UpdatedCard[];
+
+  user: IUser;
+
+  pathname: string;
 }
 
 // Define the initial state using that type
@@ -145,6 +150,10 @@ const initialState: BoardState = {
   draggedCardNewPosition: -2,
 
   updatedCards: [],
+
+  user: { id: 0, username: '' },
+
+  pathname: '',
 };
 
 export const fetchBoard = createAsyncThunk(
@@ -166,11 +175,23 @@ export const fetchBoard = createAsyncThunk(
     } catch (error) {
       console.error('Failed to fetch data: ', error);
 
-      const notify = (): void => {
-        toast('Помилка завантаження списку дошок');
-      };
-      notify();
+      toast('Помилка завантаження списку дошок');
 
+      return undefined;
+    }
+  }
+);
+
+export const findUser = createAsyncThunk(
+  'board/findUser',
+  async (emailOrUsername: { emailOrUsername: string }): Promise<IUser[] | undefined> => {
+    try {
+      const response: IUser[] = await instance.get('user', {
+        params: { emailOrUsername: emailOrUsername.emailOrUsername },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error while trying to find a user: ', error);
       return undefined;
     }
   }
@@ -240,6 +261,9 @@ export const boardSlice = createSlice({
       });
       state.updatedCards = state.updatedCards.filter((item) => item.id !== 0);
     },
+    setPathname: (state, action: PayloadAction<string>): void => {
+      state.pathname = action.payload;
+    },
     resetUpdatedCards: (state): void => {
       state.updatedCards = [];
     },
@@ -252,6 +276,11 @@ export const boardSlice = createSlice({
         state.selectedBoard = board;
       } else if (action.payload) {
         state.wholeBoard = action.payload;
+      }
+    });
+    builder.addCase(findUser.fulfilled, (state, action) => {
+      if (action.payload) {
+        [state.user] = action.payload;
       }
     });
   },
@@ -271,6 +300,7 @@ export const {
   setDraggedCardNewPosition,
   setUpdatedCards,
   resetUpdatedCards,
+  setPathname,
 } = boardSlice.actions;
 
 export const boardReducer = boardSlice.reducer;

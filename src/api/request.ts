@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import instance from './axiosConfig';
 import 'react-toastify/dist/ReactToastify.css';
 import { IResponse } from '../common/interfaces/IResponse';
 import { IBoardsList } from '../common/interfaces/IBoardsList';
+import { IAuthorizedData } from '../common/interfaces/IAuthorizedData';
 
 const createList = async (
   boardId: string | undefined,
@@ -21,10 +21,7 @@ const createList = async (
     triggerBoardRefresh();
   } catch (error) {
     console.error('Error while creating new list: ', error);
-    const notify = (): void => {
-      toast('Помилка при спробі створити список');
-    };
-    notify();
+    toast('Помилка при спробі створити список');
   }
 };
 
@@ -40,10 +37,7 @@ const renameBoard = async (
       });
     } catch (error) {
       console.error('Rename board error: ', error);
-      const notify = (): void => {
-        toast('Помилка перейменування дошки');
-      };
-      notify();
+      toast('Помилка перейменування дошки');
     }
   } else {
     setIsInputEmpty(true);
@@ -68,10 +62,7 @@ const renameCard = async (
     triggerBoardRefresh();
   } catch (error) {
     console.error('Rename card error: ', error);
-    const notify = (): void => {
-      toast('Помилка перейменування картки');
-    };
-    notify();
+    toast('Помилка перейменування картки');
   }
 };
 
@@ -97,11 +88,8 @@ const getBoards = async (
     }, 400);
     setBoards(response.boards);
   } catch (error) {
-    const notify = (): void => {
-      toast('Помилка завантаження даних');
-    };
+    toast('Помилка завантаження даних');
 
-    notify();
     console.error('Error while downloading the board list', error);
   }
 };
@@ -119,10 +107,8 @@ const changeBoardColor = async (
     });
     triggerBoardRefresh();
   } catch (error) {
-    const notify = (): void => {
-      toast('Помилка зміни кольору');
-    };
-    notify();
+    toast('Помилка зміни кольору');
+
     console.error('Some error happaned while trying to change the board color: ', error);
   }
 };
@@ -170,11 +156,7 @@ const postBoard = async (board: IBoardsList): Promise<void> => {
     await instance.post('/board', board);
   } catch (error) {
     console.error('Some error happened while creating new board: ', error);
-    const notify = (): void => {
-      toast('Помилка створення дошки');
-    };
-
-    notify();
+    toast('Помилка створення дошки');
   }
 };
 
@@ -189,11 +171,7 @@ const removeCard = async (
     triggerBoardRefresh();
   } catch (error) {
     console.error('Card removing error: ', error);
-    const notify = (): void => {
-      toast('Помилка видалення картки');
-    };
-
-    notify();
+    toast('Помилка видалення картки');
   }
 };
 
@@ -232,6 +210,24 @@ const renameList = async (
   }
 };
 
+const createUser = async (credentials: { password: string; email: string }): Promise<void> => {
+  try {
+    await instance.post('/user', credentials);
+  } catch (error) {
+    console.error('Error while trying create a user: ', error);
+  }
+};
+
+const authorize = async (credentials: { password: string; email: string }): Promise<IAuthorizedData | undefined> => {
+  try {
+    const response: IAuthorizedData = await instance.post('/login', credentials);
+    return response;
+  } catch (error) {
+    console.error('Error during an authorization: ', error);
+    throw new Error('Authorization failed');
+  }
+};
+
 export default instance;
 
 export {
@@ -246,4 +242,6 @@ export {
   changeBoardColor,
   postBoard,
   refreshList,
+  createUser,
+  authorize,
 };

@@ -12,7 +12,7 @@ export function DropArea({
   setDraggedCardNewPos,
   isLast,
 }: IDropArea): JSX.Element {
-  const isDropAreaActive = useAppSelector((state) => state.board.isDropAreaActive);
+  const { isDropAreaActive } = useAppSelector((state) => state.board);
 
   const dispatch = useAppDispatch();
 

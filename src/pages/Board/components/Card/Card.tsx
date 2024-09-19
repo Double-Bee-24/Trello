@@ -16,10 +16,13 @@ import './card.scss';
 export function Card({ position, cardId, listId, title, listTitle, cardDescription, cards = [] }: ICard): JSX.Element {
   const [isCardTitleClicked, setIsCardTitleClicked] = useState(false);
 
-  const draggedCardId = useAppSelector((state) => state.board.draggedCardId);
-  const isCardModalOpen = useAppSelector((state) => state.board.isCardModalOpen);
-  const isDropAreaActive = useAppSelector((state) => state.board.isDropAreaActive);
-  const board = useAppSelector((state) => state.board.wholeBoard);
+  const {
+    draggedCardId,
+    isCardModalOpen,
+    isDropAreaActive,
+    wholeBoard: board,
+  } = useAppSelector((state) => state.board);
+
   const { lists } = board;
 
   const dispatch = useAppDispatch();

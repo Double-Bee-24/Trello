@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IBoardMenu } from '../../../../common/interfaces/IBoardMenu';
 import { removeBoard, changeBoardColor } from '../../../../api/request';
 import { useAppDispatch } from '../../../../app/hooks';
@@ -9,6 +10,7 @@ export function BoardMenu({ boardId, setIsBoardMenuOpened }: IBoardMenu): JSX.El
   const [isColorFormVisible, setIsColorFormVisible] = useState(false);
   const [newColor, setNewColor] = useState('#ffffff');
   const dispatch = useAppDispatch();
+  const navigate = useNavigate(); // Ініціалізуємо navigate
 
   const handleDeleteClick = (): void => {
     removeBoard(boardId);
@@ -39,6 +41,17 @@ export function BoardMenu({ boardId, setIsBoardMenuOpened }: IBoardMenu): JSX.El
     });
   };
 
+  const handleLogout = async (): Promise<void> => {
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('authorizationStatus');
+      navigate('/login');
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   return (
     <div className="board-menu">
       <div className="close-btn-container">
@@ -54,6 +67,9 @@ export function BoardMenu({ boardId, setIsBoardMenuOpened }: IBoardMenu): JSX.El
         </button>
         <button onClick={handleColorChangeClick} className="change-color-btn">
           Змінити колір
+        </button>
+        <button onClick={handleLogout} className="logout-btn">
+          Вийти
         </button>
       </div>
       {isColorFormVisible && (
