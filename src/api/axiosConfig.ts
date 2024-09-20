@@ -27,6 +27,9 @@ instance.interceptors.request.use(
     // Add token to request headers if the request is not to an excluded path
     if (accessToken && !excludedPaths.includes(request.url || '')) {
       request.headers.Authorization = `Bearer ${accessToken}`;
+    } else if (excludedPaths.includes(request.url || '')) {
+      // Remove Authorization header for excluded paths
+      request.headers.Authorization = null;
     }
 
     return request;
