@@ -24,6 +24,10 @@ export function AddCardForm({ setIsAddCardButtonClicked, listId, lastCardPositio
     setCardTitle(e.target.value);
   };
 
+  const handleClose = (): void => {
+    setIsAddCardButtonClicked(false);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="addCard-form">
       <InputComponent
@@ -37,7 +41,9 @@ export function AddCardForm({ setIsAddCardButtonClicked, listId, lastCardPositio
         <button type="submit" className="add-button">
           Додати картку
         </button>
-        <button className="close-button">X</button>
+        <button className="close-button" onClick={handleClose}>
+          X
+        </button>
       </div>
     </form>
   );
