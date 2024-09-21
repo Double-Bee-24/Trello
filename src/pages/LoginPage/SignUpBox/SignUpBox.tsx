@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createUser } from '../../../api/request';
 import './signUpBox.scss';
-import { findUser } from '../../Board/boardSlice';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { findUser } from '../../Board/boardThunk';
+import { useAppDispatch } from '../../../app/hooks';
 import { IUser } from '../../../common/interfaces/IUser';
 
 // Function to determine password strength and set the appropriate class
@@ -11,25 +11,30 @@ const getPasswordStrength = (password: string): string => {
     return 'red'; // Very weak password
   }
 
-  const hasLetters = /[a-zA-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasUpperCase = /[A-Z]/.test(password);
   const hasNumbers = /\d/.test(password);
   const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-  // Strong (letters, numbers, special characters)
-  if (hasLetters && hasNumbers && hasSpecialChars && password.length >= 14) {
+  // Check if password has at least one lowercase letter, one uppercase letter, one number, and one special character
+  const meetsCharacterRequirements = hasLowerCase && hasUpperCase && hasNumbers && hasSpecialChars;
+
+  // Strong (must have letters, numbers, special characters, and length >= 14)
+  if (meetsCharacterRequirements && password.length >= 14) {
     return 'green'; // Strong password
   }
-  // If the password contains only letters or only numbers, and it's long
-  if ((hasLetters || hasNumbers || hasSpecialChars) && password.length >= 14) {
+
+  // Moderate (length >= 14 and meets at least one of the character requirements)
+  if (password.length >= 14 && (hasLowerCase || hasUpperCase || hasNumbers || hasSpecialChars)) {
     return 'yellow'; // Moderate password
   }
 
-  // Medium level (a)
-  if (password.length >= 8) {
+  // Medium (length >= 8 and meets character requirements)
+  if (password.length >= 6 && meetsCharacterRequirements) {
     return 'orange'; // Medium password
   }
 
-  return '';
+  return ''; // No strength if it doesn't meet any condition
 };
 
 // Check if the passwords equal to provide correct authorization

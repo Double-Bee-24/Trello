@@ -2,24 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ToastContainer, toast } from 'react-toastify';
 import { instance, findUserInstance } from '../../api/axiosConfig';
 import { ILists } from '../../common/interfaces/ILists';
+import { ILightCard } from '../../common/interfaces/ILightCard';
 import { IBoardsList } from '../../common/interfaces/IBoardsList';
 import { IBoard } from '../../common/interfaces/IBoard';
 import { IUser } from '../../common/interfaces/IUser';
+import { IUpdatedCard } from '../../common/interfaces/IUpdatedCard';
 import type { RootState } from '../../app/store';
 import 'react-toastify/dist/ReactToastify.css';
-
-interface LightCard {
-  id: number;
-  title: string;
-  description: string | undefined;
-  position: number;
-}
-
-interface UpdatedCard {
-  id: number;
-  list_id: number;
-  position: number;
-}
 
 // Define a type for the slice state
 export interface BoardState {
@@ -41,7 +30,7 @@ export interface BoardState {
 
   boardsList: IBoardsList[];
 
-  cards: LightCard[];
+  cards: ILightCard[];
 
   wholeBoard: IBoard;
   selectedBoard: IBoard;
@@ -54,7 +43,7 @@ export interface BoardState {
 
   isDropAreaActive: boolean;
 
-  updatedCards: UpdatedCard[];
+  updatedCards: IUpdatedCard[];
 
   user: IUser;
 
@@ -226,7 +215,7 @@ export const boardSlice = createSlice({
     setBoardsList: (state, action: PayloadAction<IBoardsList[]>): void => {
       state.boardsList = action.payload;
     },
-    setCards: (state, action: PayloadAction<LightCard[]>): void => {
+    setCards: (state, action: PayloadAction<ILightCard[]>): void => {
       state.cards = action.payload;
     },
     setDraggedCardName: (state, action: PayloadAction<string>): void => {
@@ -244,7 +233,7 @@ export const boardSlice = createSlice({
     setDraggedCardNewPosition: (state, action: PayloadAction<number>): void => {
       state.draggedCardNewPosition = action.payload;
     },
-    setUpdatedCards: (state, action: PayloadAction<UpdatedCard[]>): void => {
+    setUpdatedCards: (state, action: PayloadAction<IUpdatedCard[]>): void => {
       const newCards = action.payload;
 
       newCards.forEach((card) => {
