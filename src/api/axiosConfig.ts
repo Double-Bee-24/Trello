@@ -19,10 +19,18 @@ const findUserInstance = axios.create({
   },
 });
 
+// We have to use another instance for refreshToken method to prevent infinite loop
+const refreshTokenInstance = axios.create({
+  baseURL: api.baseURL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 const excludedPaths = ['/login', '/user'];
 
 const handleUnauthorized = (): void => {
-  localStorage.setItem('authorizationStatus', 'Unauthorized');
+  localStorage.removeItem('authorizationStatus');
   localStorage.removeItem('token');
   localStorage.removeItem('refreshToken');
   window.location.href = '/login';
@@ -30,12 +38,24 @@ const handleUnauthorized = (): void => {
 
 const updateToken = async (refreshToken: string): Promise<IAuthorizedData | undefined> => {
   try {
-    const response: IAuthorizedData = await instance.post('/refresh', { refreshToken });
+    const response: IAuthorizedData = await refreshTokenInstance.post('/refresh', { refreshToken });
     return response;
   } catch (error) {
+    localStorage.removeItem('authorizationStatus');
     return undefined;
   }
 };
+
+refreshTokenInstance.interceptors.request.use(
+  (request) => {
+    const accessToken = localStorage.getItem('token');
+    request.headers.Authorization = `Bearer ${accessToken}`;
+    return request;
+  },
+  (error) => Promise.reject(error)
+);
+
+refreshTokenInstance.interceptors.request.use((response) => response.data);
 
 instance.interceptors.request.use(
   (request) => {
@@ -45,7 +65,6 @@ instance.interceptors.request.use(
     if (accessToken && !excludedPaths.includes(request.url || '')) {
       request.headers.Authorization = `Bearer ${accessToken}`;
     } else if (excludedPaths.includes(request.url || '')) {
-      // Remove Authorization header for excluded paths
       request.headers.Authorization = null;
     }
 
@@ -54,7 +73,10 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-findUserInstance.interceptors.response.use((response) => response.data);
+findUserInstance.interceptors.response.use(
+  (response) => response.data,
+  (error) => Promise.reject(error)
+);
 
 instance.interceptors.response.use(
   (response) => response.data,
@@ -85,8 +107,6 @@ instance.interceptors.response.use(
 
             // Update authorization header with the new token
             originalRequest.headers.Authorization = `Bearer ${token}`;
-
-            // Retry the original request
             return await instance(originalRequest);
           }
         }
