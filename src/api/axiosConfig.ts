@@ -6,9 +6,27 @@ const instance = axios.create({
   baseURL: api.baseURL,
   headers: {
     'Content-Type': 'application/json',
-    // Authorization: 'Bearer 123',
   },
 });
+
+// We have to be authorized to use method 'findUser' which finds is there already a user with such email in a base.
+// However, we use this method before an authorization, so we don't have a proper token yet.
+const findUserInstance = axios.create({
+  baseURL: api.baseURL,
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer 123',
+  },
+});
+
+const excludedPaths = ['/login', '/user'];
+
+const handleUnauthorized = (): void => {
+  localStorage.setItem('authorizationStatus', 'Unauthorized');
+  localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
+  window.location.href = '/login';
+};
 
 const updateToken = async (refreshToken: string): Promise<IAuthorizedData | undefined> => {
   try {
@@ -22,7 +40,6 @@ const updateToken = async (refreshToken: string): Promise<IAuthorizedData | unde
 instance.interceptors.request.use(
   (request) => {
     const accessToken = localStorage.getItem('token');
-    const excludedPaths = ['/login', '/user'];
 
     // Add token to request headers if the request is not to an excluded path
     if (accessToken && !excludedPaths.includes(request.url || '')) {
@@ -37,10 +54,17 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+findUserInstance.interceptors.response.use((response) => response.data);
+
 instance.interceptors.response.use(
   (response) => response.data,
   async (error) => {
     const originalRequest = error.config;
+
+    // Skip token refresh for login and user creation requests
+    if (excludedPaths.includes(originalRequest.url || '')) {
+      return Promise.reject(error);
+    }
 
     // If status 401 and the request has not been retried yet
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
@@ -68,15 +92,9 @@ instance.interceptors.response.use(
         }
 
         // If token update failed or refreshToken is invalid
-        localStorage.setItem('authorizationStatus', 'Unauthorized');
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        window.location.href = '/login'; // Redirect to login page
+        handleUnauthorized();
       } catch (refreshError) {
-        localStorage.setItem('authorizationStatus', 'Unauthorized'); // Set authorizationStatus as Unauthorized
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        window.location.href = '/login'; // Redirect to login page
+        handleUnauthorized();
         return Promise.reject(refreshError);
       }
     }
@@ -86,4 +104,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export { instance, findUserInstance };

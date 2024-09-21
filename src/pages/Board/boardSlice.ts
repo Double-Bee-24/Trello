@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import instance from '../../api/axiosConfig';
+import { instance, findUserInstance } from '../../api/axiosConfig';
 import { ILists } from '../../common/interfaces/ILists';
 import { IBoardsList } from '../../common/interfaces/IBoardsList';
 import { IBoard } from '../../common/interfaces/IBoard';
 import { IUser } from '../../common/interfaces/IUser';
 import type { RootState } from '../../app/store';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface LightCard {
   id: number;
@@ -186,7 +186,7 @@ export const findUser = createAsyncThunk(
   'board/findUser',
   async (emailOrUsername: { emailOrUsername: string }): Promise<IUser[] | undefined> => {
     try {
-      const response: IUser[] = await instance.get('user', {
+      const response: IUser[] = await findUserInstance.get('user', {
         params: { emailOrUsername: emailOrUsername.emailOrUsername },
       });
       return response;
@@ -279,8 +279,11 @@ export const boardSlice = createSlice({
       }
     });
     builder.addCase(findUser.fulfilled, (state, action) => {
-      if (action.payload) {
+      // Check if the payload is an array
+      if (Array.isArray(action.payload)) {
         [state.user] = action.payload;
+      } else if (action.payload) {
+        state.user = action.payload; // If it's not an array, just assign the value
       }
     });
   },

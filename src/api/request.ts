@@ -1,5 +1,5 @@
 import { ToastContainer, toast } from 'react-toastify';
-import instance from './axiosConfig';
+import { instance } from './axiosConfig';
 import 'react-toastify/dist/ReactToastify.css';
 import { IResponse } from '../common/interfaces/IResponse';
 import { IBoardsList } from '../common/interfaces/IBoardsList';
