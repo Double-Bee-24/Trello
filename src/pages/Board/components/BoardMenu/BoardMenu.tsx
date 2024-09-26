@@ -10,7 +10,7 @@ export function BoardMenu({ boardId, setIsBoardMenuOpened }: IBoardMenu): JSX.El
   const [isColorFormVisible, setIsColorFormVisible] = useState(false);
   const [newColor, setNewColor] = useState('#ffffff');
   const dispatch = useAppDispatch();
-  const navigate = useNavigate(); // Ініціалізуємо navigate
+  const navigate = useNavigate();
 
   const handleDeleteClick = (): void => {
     removeBoard(boardId);

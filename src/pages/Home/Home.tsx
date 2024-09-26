@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { BoardPreview } from './components/BoardPreview/BoardPreview';
 import { AddBoardModal } from './components/AddBoardModal/AddBoardModal';
 import { IBoardsList } from '../../common/interfaces/IBoardsList';
@@ -13,6 +13,7 @@ export function Home(): JSX.Element {
 
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsBoardCreated(false);
@@ -27,16 +28,32 @@ export function Home(): JSX.Element {
     </NavLink>
   ));
 
+  const handleLogout = async (): Promise<void> => {
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('authorizationStatus');
+      navigate('/login');
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="home-item">
-      {boardComponents}
-      <button className="create-board-button" onClick={(): void => setIsOpen(true)}>
-        Створити дошку
-      </button>
-      {isOpen && <AddBoardModal setIsOpen={setIsOpen} setIsBoardCreated={setIsBoardCreated} />}
-      {isLoading && <ProgressBar progress={loadingProgress} />}
+    <div className="home-item-container">
+      <div className="home-item">
+        {boardComponents}
+        <button className="create-board-button" onClick={(): void => setIsOpen(true)}>
+          Створити дошку
+        </button>
+        {isOpen && <AddBoardModal setIsOpen={setIsOpen} setIsBoardCreated={setIsBoardCreated} />}
+        {/* {isLoading && <ProgressBar progress={loadingProgress} />} */}
+      </div>
+      <div className="logout-container">
+        <p onClick={handleLogout}>Вийти</p>
+      </div>
     </div>
   );
 }

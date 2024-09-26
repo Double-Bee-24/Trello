@@ -25,12 +25,12 @@ const getPasswordStrength = (password: string): string => {
   }
 
   // Moderate (length >= 14 and meets at least one of the character requirements)
-  if (password.length >= 14 && (hasLowerCase || hasUpperCase || hasNumbers || hasSpecialChars)) {
+  if (password.length >= 10 && (hasLowerCase || hasUpperCase || hasNumbers)) {
     return 'yellow'; // Moderate password
   }
 
   // Medium (length >= 8 and meets character requirements)
-  if (password.length >= 6 && meetsCharacterRequirements) {
+  if (password.length >= 6 && (hasLowerCase || hasUpperCase || hasNumbers)) {
     return 'orange'; // Medium password
   }
 

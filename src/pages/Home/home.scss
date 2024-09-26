@@ -5,12 +5,19 @@
   @include custom-font;
 }
 
+.home-item-container {
+  background: #f5f5dc;
+  height: 100%;
+  display: flex;
+}
+
 .home-item {
   display: flex;
   flex-wrap: wrap;
   padding: 20px 0 0 20px;
   background: #f5f5dc;
   height: 100%;
+  width: 94%;
 
   .create-board-button {
     background: #a0a0a0;
@@ -23,5 +30,15 @@
 
   a {
     margin: 15px;
+  }
+}
+
+.logout-container {
+  padding: 38px 45px;
+  font-size: 20px;
+  font-family: cursive;
+
+  p {
+    cursor: pointer;
   }
 }

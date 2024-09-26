@@ -21,12 +21,13 @@ export function LoginBox(): JSX.Element {
     } else if (name === 'password') {
       setPassword(value);
     }
+    setIsError(false);
   };
 
   const handleClick = async (): Promise<void> => {
     if (emailRegex.test(email)) {
       setIsEmailCorrect(true);
-      // TODO: make better validation before sending a request
+
       if (password.length > 6) {
         try {
           const authorizationData = await authorize({ password, email });
@@ -41,6 +42,7 @@ export function LoginBox(): JSX.Element {
           }
         } catch (error) {
           console.error('Error during authorization:', error);
+          setIsError(true);
         }
       }
     } else {
@@ -63,7 +65,7 @@ export function LoginBox(): JSX.Element {
           <p>Пароль</p>
           <input type="password" name="password" value={password} onChange={handleChange} />
         </div>
-        <span className={!isEmailCorrect && isError ? 'error-message' : 'transparent'}>
+        <span className={!isEmailCorrect || isError ? 'error-message' : 'transparent'}>
           Неправильна пошта та/або пароль
         </span>
       </div>
