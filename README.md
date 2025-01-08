@@ -32,7 +32,7 @@ Follow the instructions below to get the project up and running on your local ma
 ### 1. Clone the repository
 
 ```
-git clone [https://github.com/yourusername/trello-clone.git](https://github.com/Double-Bee-24/Trello.git)
+git clone https://github.com/Double-Bee-24/Trello.git
 cd trello-clone
 ```
 
