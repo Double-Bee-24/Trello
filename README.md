@@ -45,5 +45,5 @@ npm i
 ### 3. Run the project
 
 ```
-npm run dev
+npm run start
 ```
