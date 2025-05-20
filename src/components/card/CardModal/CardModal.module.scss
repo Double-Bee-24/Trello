@@ -1,0 +1,119 @@
+.card_modal {
+  position: absolute;
+  width: 700px;
+  height: 300px;
+  background-color: #223440;
+  color: white;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 11;
+  left: 0;
+  right: 0;
+  top: 150px;
+  padding: 15px;
+
+  button {
+    width: 100%;
+    text-align: left;
+    height: 24px;
+    background: #5d7a8c;
+    color: white;
+
+    &:hover {
+      background: #62788c;
+    }
+  }
+}
+
+.card_modal_content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.card_modal_actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 20%;
+  margin-top: 20px;
+
+  button {
+    margin-top: 8px;
+  }
+
+  .remove_btn {
+    background: #cc1c39;
+
+    &:hover {
+      background: #a51935;
+    }
+  }
+
+  .close_btn {
+    width: auto;
+    background: none;
+
+    &:hover {
+      background: #45637a;
+    }
+  }
+}
+
+.card_modal_main {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-right: 20px;
+
+  div {
+    margin-top: 20px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  button {
+    width: auto;
+  }
+}
+
+.modal_members_list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bold {
+  font-weight: 800;
+}
+
+.card_modal_title {
+  display: inline-flex;
+  margin-bottom: 10px;
+  margin-top: 3px;
+  justify-content: space-between;
+  width: 100%;
+
+  button {
+    width: 27px;
+    height: 27px;
+    border-radius: 15px;
+    background: none;
+    color: white;
+    font-weight: 800;
+    font-size: 18px;
+    text-align: center;
+
+    &:hover {
+      background: darkgray;
+    }
+  }
+}
+
+u {
+  cursor: pointer;
+}

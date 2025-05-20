@@ -1,0 +1,19 @@
+@use '../../../styles/index' as *;
+
+.invisible {
+  visibility: hidden;
+}
+
+.board_rename_form_container {
+  display: flex;
+
+  form {
+    display: inline-block;
+
+    input {
+      &::placeholder {
+        color: white;
+      }
+    }
+  }
+}

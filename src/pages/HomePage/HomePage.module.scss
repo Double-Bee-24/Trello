@@ -1,0 +1,43 @@
+@use '../../styles/index' as *;
+
+* {
+  @include custom-font;
+}
+
+.home_item_container {
+  background: #f5f5dc;
+  height: 100%;
+  display: flex;
+}
+
+.home_item {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px 0 0 20px;
+  background: #f5f5dc;
+  height: 100%;
+  width: 94%;
+
+  .create_board_button {
+    background: #a0a0a0;
+    width: 175px;
+    height: 80px;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 15px;
+  }
+
+  a {
+    margin: 15px;
+  }
+}
+
+.logout_container {
+  padding: 38px 45px;
+  font-size: 20px;
+  font-family: cursive;
+
+  p {
+    cursor: pointer;
+  }
+}

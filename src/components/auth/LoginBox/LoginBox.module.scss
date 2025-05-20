@@ -1,0 +1,16 @@
+.login_box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 150px;
+  margin-bottom: 5px;
+}
+
+.input_container p {
+  margin-bottom: 3px;
+}
+
+.login_subtitle {
+  margin-bottom: 20px;
+}

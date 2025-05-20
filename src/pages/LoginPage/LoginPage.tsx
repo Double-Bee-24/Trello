@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import './loginPage.scss';
-import { LoginBox } from './LoginBox/LoginBox';
-import { SignUpBox } from './SignUpBox/SignUpBox';
+import React, { JSX, useState } from 'react';
+import { LoginBox, SignUpBox } from '@components';
+import styles from './LoginPage.module.scss';
 
 export function LoginPage(): JSX.Element {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,14 +14,14 @@ export function LoginPage(): JSX.Element {
   };
 
   return (
-    <div className="login-page">
-      <form className="login-form" onSubmit={handleSubmit}>
+    <div className={styles.login_page}>
+      <form className={styles.login_form} onSubmit={handleSubmit}>
         {isLogin ? (
           <>
             <LoginBox />
-            <div className="auth-toggle">
+            <div className={styles.auth_toggle}>
               <p>Ще не зареєстровані ?</p>
-              <span className="signup-text" onClick={handleClick}>
+              <span className={styles.signup_text} onClick={handleClick}>
                 Зареєструватися
               </span>
             </div>
@@ -30,9 +29,9 @@ export function LoginPage(): JSX.Element {
         ) : (
           <>
             <SignUpBox />
-            <div className="auth-toggle">
+            <div className={styles.auth_toggle}>
               <p>Вже є акаунт ?</p>
-              <span className="signup-text" onClick={handleClick}>
+              <span className={styles.signup_text} onClick={handleClick}>
                 Увійти
               </span>
             </div>

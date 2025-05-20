@@ -1,20 +1,15 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { Board } from './pages/Board/Board';
-import { Home } from './pages/Home/Home';
 import { store } from './app/store';
-import { CardModal } from './pages/Board/components/CardModal/CardModal';
-import { LoginPage } from './pages/LoginPage/LoginPage';
-import { ProtectedRoute } from './pages/Misc/ProtectedRoute/ProtectedRoute';
-import { PublicRoute } from './pages/Misc/PublicRoute/PublicRoute';
+import { BoardPage, HomePage, LoginPage } from '@pages';
+import { CardModal, ProtectedRoute, PublicRoute } from '@components';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <ProtectedRoute>
-        <Home />
+        <HomePage />
       </ProtectedRoute>
     ),
   },
@@ -30,7 +25,7 @@ const router = createBrowserRouter([
     path: '/board/:boardId/*',
     element: (
       <ProtectedRoute>
-        <Board />
+        <BoardPage />
       </ProtectedRoute>
     ),
     children: [
@@ -42,7 +37,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App(): JSX.Element {
+function App() {
   return (
     <Provider store={store}>
       <RouterProvider router={router} />

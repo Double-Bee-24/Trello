@@ -41,7 +41,7 @@ const updateToken = async (refreshToken: string): Promise<IAuthorizedData | unde
     const response: IAuthorizedData = await refreshTokenInstance.post('/refresh', { refreshToken });
     return response;
   } catch (error) {
-    console.error('Error during refresh token updating');
+    console.error('Error during refresh token updating: ', error);
     localStorage.removeItem('authorizationStatus');
     return undefined;
   }
