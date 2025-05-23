@@ -100,8 +100,7 @@
 }
 
 .error_message {
-  margin: 5px;
-  color: red;
+  @include error-message;
 }
 
 .invisible {

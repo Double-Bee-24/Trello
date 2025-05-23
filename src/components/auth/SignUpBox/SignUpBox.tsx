@@ -3,56 +3,10 @@ import { createUser } from '@services';
 import { findUser } from '../../../pages/BoardPage/boardThunk';
 import { useAppDispatch } from '../../../app/hooks';
 import styles from './SignUpBox.module.scss';
+import { getPasswordStrength, comparePasswords } from 'src/common/utils/validation';
 import { IUser } from '@interfaces';
 
-// Function to determine password strength and set the appropriate class
-const getPasswordStrength = (password: string): string => {
-  if (password.length < 8 && password.length > 0) {
-    return 'red'; // Very weak password
-  }
-
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasNumbers = /\d/.test(password);
-  const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-  // Check if password has at least one lowercase letter, one uppercase letter, one number, and one special character
-  const meetsCharacterRequirements = hasLowerCase && hasUpperCase && hasNumbers && hasSpecialChars;
-
-  // Strong (must have letters, numbers, special characters, and length >= 14)
-  if (meetsCharacterRequirements && password.length >= 14) {
-    return 'green'; // Strong password
-  }
-
-  // Moderate (length >= 14 and meets at least one of the character requirements)
-  if (password.length >= 10 && (hasLowerCase || hasUpperCase || hasNumbers)) {
-    return 'yellow'; // Moderate password
-  }
-
-  // Medium (length >= 8 and meets character requirements)
-  if (password.length >= 6 && (hasLowerCase || hasUpperCase || hasNumbers)) {
-    return 'orange'; // Medium password
-  }
-
-  return ''; // No strength if it doesn't meet any condition
-};
-
-// Check if the passwords equal to provide correct authorization
-function comparePasswords(
-  password: string,
-  confirmedPassword: string,
-  setIsPasswordEqual: React.Dispatch<React.SetStateAction<boolean>>,
-  setThirdErrorMessage: React.Dispatch<React.SetStateAction<string>>
-): void {
-  if (password === confirmedPassword) {
-    setIsPasswordEqual(true);
-  } else {
-    setIsPasswordEqual(false);
-    setThirdErrorMessage('Паролі не збігаються');
-  }
-}
-
-export function SignUpBox(): JSX.Element {
+export function SignUpBox({ setIsLogin }: { setIsLogin: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
   const [email, setEmail] = useState('');
 
   const [password, setPassword] = useState('');
@@ -102,6 +56,10 @@ export function SignUpBox(): JSX.Element {
     }
   };
 
+  const handleSwitchToLogin = (): void => {
+    setIsLogin((prev: boolean) => !prev);
+  };
+
   useEffect(() => {
     comparePasswords(password, confirmedPassword, setIsPasswordEqual, setThirdErrorMessage);
   }, [password, confirmedPassword]);
@@ -133,7 +91,15 @@ export function SignUpBox(): JSX.Element {
           {thirdErrorMessage}
         </span>
       </div>
-      <button onClick={handleClick}>Зареєструватися</button>
+      <button onClick={handleClick} className={styles.signup_button}>
+        Зареєструватися
+      </button>
+      <div className={styles.auth_toggle}>
+        <p>Вже є акаунт ?</p>
+        <span className={styles.signup_text} onClick={handleSwitchToLogin}>
+          Увійти
+        </span>
+      </div>
     </>
   );
 }

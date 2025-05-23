@@ -27,7 +27,8 @@ function refreshLists(
   dispatch: AppDispatch
 ): void {
   // Create copy of an array
-  let listCardsCopy = listCards.slice();
+  // let listCardsCopy = listCards.slice();
+  let listCardsCopy = [...listCards];
 
   if (id === listToDropId) {
     const draggedCard = listCards.find((item) => item.id === draggedCardId);

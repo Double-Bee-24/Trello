@@ -1,127 +1,158 @@
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
+// Modern CSS Reset - Improved Version
+// Based on Josh Comeau's CSS reset with additional improvements
+
+// 1. Use a more-intuitive box-sizing model
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// 2. Remove default margin and padding
+* {
+  margin: 0;
+  padding: 0;
+}
+
+// 3. Prevent mobile Safari increasing font sizes
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+// 4. Improve text rendering
+body {
+  line-height: 1.5; // Better readability than 1
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+// 5. Improve media defaults
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// 6. Remove built-in form typography styles
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+// 7. Avoid text overflows
+p,
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+h6 {
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
+
+// 8. Better default for headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  font-weight: bold;
 }
-body {
-  line-height: 1;
-}
+
+// 9. Remove list styles
 ol,
 ul {
   list-style: none;
 }
+
+// 10. Remove quotes
 blockquote,
 q {
   quotes: none;
+
+  &::before,
+  &::after {
+    content: '';
+    content: none;
+  }
 }
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: '';
-  content: none;
-}
+
+// 11. Table reset
 table {
   border-collapse: collapse;
   border-spacing: 0;
+  width: 100%;
 }
-* {
-  box-sizing: border-box;
+
+// 12. Better button reset
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+// 13. Link improvements
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+// 14. Form elements
+input,
+textarea,
+select {
+  border: none;
+  background: none;
+
+  &:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+// 15. Hidden attribute
+[hidden] {
+  display: none !important;
+}
+
+// 16. Root container
+#root,
+#__next {
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+// 17. Reduce motion for users who prefer it
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,6 +1,6 @@
 @use '../../../styles/index' as *;
 
-.list-item {
+.list_item {
   background-color: $list-color;
   width: 230px;
   height: fit-content;
@@ -13,7 +13,7 @@
   @include custom-font;
 }
 
-.add-card-button {
+.add_card_button {
   @include button-style(25px, 60%);
   margin-top: 12px;
 
@@ -23,7 +23,7 @@
   }
 }
 
-.list-name {
+.list_name {
   margin-bottom: 12px;
   display: block;
   cursor: pointer;

@@ -1,9 +1,10 @@
+@use '../../../styles/index' as *;
+
 .login_box {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 150px;
   margin-bottom: 5px;
 }
 
@@ -13,4 +14,28 @@
 
 .login_subtitle {
   margin-bottom: 20px;
+}
+
+.login_button {
+  background-color: $list-button-color;
+}
+
+.error_message {
+  @include error-message;
+}
+
+.transparent {
+  @include transparent;
+}
+
+.signup_text {
+  color: blue;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.auth_toggle {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
 }

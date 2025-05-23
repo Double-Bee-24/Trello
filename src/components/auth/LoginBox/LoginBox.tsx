@@ -4,7 +4,7 @@ import { authorize } from '@services';
 import { useAppSelector } from '../../../app/hooks';
 import styles from './LoginBox.module.scss';
 
-export function LoginBox(): JSX.Element {
+export function LoginBox({ setIsLogin }: { setIsLogin: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEmailCorrect, setIsEmailCorrect] = useState(true);
@@ -50,6 +50,10 @@ export function LoginBox(): JSX.Element {
     }
   };
 
+  const handleSwitchToRegister = (): void => {
+    setIsLogin((prev: boolean) => !prev);
+  };
+
   return (
     <>
       <p className={styles.login_subtitle}>Вхід</p>
@@ -68,8 +72,16 @@ export function LoginBox(): JSX.Element {
         <span className={!isEmailCorrect || isError ? styles.error_message : styles.transparent}>
           Неправильна пошта та/або пароль
         </span>
+        <button onClick={handleClick} className={styles.login_button}>
+          Увійти
+        </button>
+        <div className={styles.auth_toggle}>
+          <p>Ще не зареєстровані ?</p>
+          <span className={styles.signup_text} onClick={handleSwitchToRegister}>
+            Зареєструватися
+          </span>
+        </div>
       </div>
-      <button onClick={handleClick}>Увійти</button>
     </>
   );
 }

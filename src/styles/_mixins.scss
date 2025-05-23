@@ -1,0 +1,87 @@
+@use 'variables' as *;
+
+// Typography Mixins
+@mixin custom-font {
+  font-family: $raleway-font;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+// Input Mixins
+@mixin input-error-active {
+  border: 2px solid red;
+  outline: none;
+  margin: 5px;
+  color: red;
+}
+
+@mixin input-styles($background, $border-color, $height: $default-input-height) {
+  background: $background;
+  border: 2px solid $border-color;
+  outline: none;
+  height: $height;
+  border-radius: $default-border-radius;
+  color: white;
+
+  &:focus {
+    outline: 2px solid rgba($border-color, 0.5);
+    outline-offset: 2px;
+  }
+}
+
+// Layout Mixins
+@mixin dark-bg {
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Button Mixins
+@mixin button-style($height, $width, $bg-color: $add-button-color) {
+  position: relative;
+  height: $height;
+  width: $width;
+  background-color: $bg-color;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: $default-transition;
+  @include custom-font;
+
+  &:hover {
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+@mixin error-message {
+  margin: 5px;
+  color: red;
+}
+
+@mixin transparent {
+  opacity: 0;
+}

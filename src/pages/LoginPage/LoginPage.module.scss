@@ -34,7 +34,7 @@
 }
 
 .transparent {
-  opacity: 0;
+  @include transparent;
 }
 
 button {
