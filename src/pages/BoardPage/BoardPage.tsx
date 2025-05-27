@@ -1,4 +1,5 @@
-import React, { JSX, useState, useEffect } from 'react';
+import type { JSX} from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router';

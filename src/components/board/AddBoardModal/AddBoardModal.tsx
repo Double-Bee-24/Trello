@@ -1,6 +1,7 @@
-import React, { JSX, useState } from 'react';
+import type { JSX} from 'react';
+import React, { useState } from 'react';
 import { postBoard } from '@services';
-import { IAddBoardModal, IBoardsList } from '@interfaces';
+import type { IAddBoardModal, IBoardsList } from '@interfaces';
 import styles from './AddBoardModal.module.scss';
 
 export function AddBoardModal({ setIsOpen, setIsBoardCreated }: IAddBoardModal): JSX.Element {

@@ -1,10 +1,11 @@
-import React, { JSX, useEffect, useState } from 'react';
+import type { JSX} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { triggerBoardRefresh, fetchBoard } from '../../../pages/BoardPage/boardSlice';
 import { InputComponent } from '@components';
 import { createCard, refreshList, removeCard } from '@services';
-import { AppDispatch } from '../../../app/store';
-import { IUpdatedCards, ILists, ICardActionMenu, IBoardsList } from '@interfaces';
+import type { AppDispatch } from '../../../app/store';
+import type { IUpdatedCards, ILists, ICardActionMenu, IBoardsList } from '@interfaces';
 import styles from './CardActionMenu.module.scss';
 
 // Copy or move 'card' item

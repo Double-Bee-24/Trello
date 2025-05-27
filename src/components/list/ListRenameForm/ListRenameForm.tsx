@@ -1,6 +1,7 @@
-import React, { JSX, useState } from 'react';
+import type { JSX} from 'react';
+import React, { useState } from 'react';
 import { InputComponent } from '@components';
-import { IListRenameForm } from '@interfaces';
+import type { IListRenameForm } from '@interfaces';
 import { renameList } from '@services';
 import { useAppDispatch } from '../../../app/hooks';
 import { triggerBoardRefresh } from '../../../pages/BoardPage/boardSlice';

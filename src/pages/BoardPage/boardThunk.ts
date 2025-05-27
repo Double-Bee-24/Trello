@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { instance, findUserInstance } from '../../api/axiosConfig';
-import { IBoard, IUser } from '@interfaces';
+import type { IBoard, IUser } from '@interfaces';
 
 export const fetchBoard = createAsyncThunk(
   'board/fetchBoard',

@@ -1,7 +1,8 @@
-import { JSX, useState, useEffect } from 'react';
+import type { JSX} from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { BoardPreview, AddBoardModal } from '@components';
-import { IBoardsList } from '@interfaces';
+import type { IBoardsList } from '@interfaces';
 import { getBoards } from '@services';
 import styles from './HomePage.module.scss';
 

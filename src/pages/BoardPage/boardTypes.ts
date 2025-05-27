@@ -1,18 +1,4 @@
-export interface ILists {
-  // Interface for lists
-}
-
-export interface ILightCard {
-  // Interface for light cards
-}
-
-export interface IBoardsList {
-  // Interface for boards list
-}
-
-export interface IBoard {
-  // Interface for board
-}
+import type { IBoard, IBoardsList, ILightCard, ILists } from '@interfaces';
 
 export interface IUser {
   id: number;

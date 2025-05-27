@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { api } from '../common/constants';
-import { IAuthorizedData } from '../common/interfaces/IAuthorizedData';
+import type { IAuthorizedData } from '../common/interfaces/IAuthorizedData';
 
 const instance = axios.create({
   baseURL: api.baseURL,

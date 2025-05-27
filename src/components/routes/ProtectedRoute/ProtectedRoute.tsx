@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import type { JSX } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/hooks';
 import { setPathname } from '../../../pages/BoardPage/boardSlice';

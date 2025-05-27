@@ -1,7 +1,8 @@
-import { JSX, useState } from 'react';
+import type { JSX} from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router';
 import { createList } from '@services';
-import { IAddListForm } from '@interfaces';
+import type { IAddListForm } from '@interfaces';
 import { InputComponent } from '@components';
 import { useAppDispatch } from '../../../app/hooks';
 import { triggerBoardRefresh } from '../../../pages/BoardPage/boardSlice';

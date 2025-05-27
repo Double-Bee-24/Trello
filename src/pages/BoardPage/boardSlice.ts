@@ -1,12 +1,13 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { instance, findUserInstance } from '../../api/axiosConfig';
-import { ILists } from '../../common/interfaces/ILists';
-import { ILightCard } from '../../common/interfaces/ILightCard';
-import { IBoardsList } from '../../common/interfaces/IBoardsList';
-import { IBoard } from '../../common/interfaces/IBoard';
-import { IUser } from '../../common/interfaces/IUser';
-import { IUpdatedCard } from '../../common/interfaces/IUpdatedCard';
+import type { ILists } from '../../common/interfaces/ILists';
+import type { ILightCard } from '../../common/interfaces/ILightCard';
+import type { IBoardsList } from '../../common/interfaces/IBoardsList';
+import type { IBoard } from '../../common/interfaces/IBoard';
+import type { IUser } from '../../common/interfaces/IUser';
+import type { IUpdatedCard } from '../../common/interfaces/IUpdatedCard';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Define a type for the slice state

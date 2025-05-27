@@ -1,7 +1,8 @@
-import React, { JSX, useState, useRef, useEffect } from 'react';
+import type { JSX} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { renameBoard } from '@services';
-import { IBoardRenameForm } from '@interfaces';
+import type { IBoardRenameForm } from '@interfaces';
 import { InputComponent } from '@components';
 import { useAppDispatch } from '../../../app/hooks';
 import { triggerBoardRefresh } from '../../../pages/BoardPage/boardSlice';

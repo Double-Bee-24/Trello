@@ -1,10 +1,11 @@
-import React, { JSX, useState } from 'react';
+import type { JSX} from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { renameCard } from '@services';
 import { InputComponent } from '@components';
 import { useAppDispatch } from 'src/app/hooks';
 import { triggerBoardRefresh } from 'src/pages/BoardPage/boardSlice';
-import { ICardRenameForm } from '@interfaces';
+import type { ICardRenameForm } from '@interfaces';
 import styles from './CardRenameForm.module.scss';
 
 export function CardRenameForm({ setIsCardTitleClicked, title, listId, cardId }: ICardRenameForm): JSX.Element {

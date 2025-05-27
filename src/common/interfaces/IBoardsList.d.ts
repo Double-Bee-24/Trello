@@ -1,4 +1,4 @@
-import { ILists } from './ILists';
+import type { ILists } from './ILists';
 
 export interface IBoardsList {
   id?: number;

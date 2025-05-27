@@ -1,8 +1,9 @@
-import React, { JSX, useState, useEffect } from 'react';
-import { IList } from '@interfaces';
+import type { JSX} from 'react';
+import React, { useState, useEffect } from 'react';
+import type { IList } from '@interfaces';
 import { setUpdatedCards } from '../../../pages/BoardPage/boardSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { AppDispatch } from '../../../app/store';
+import type { AppDispatch } from '../../../app/store';
 import { ListRenameForm, AddCardForm, DropArea, Card } from '@components';
 import styles from './List.module.scss';
 

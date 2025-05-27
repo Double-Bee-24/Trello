@@ -1,10 +1,11 @@
-import React, { JSX, useState } from 'react';
+import type { JSX} from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { createCard } from '@services';
 import { InputComponent } from '@components';
 import { useAppDispatch } from '../../../app/hooks';
 import { triggerBoardRefresh } from '../../../pages/BoardPage/boardSlice';
-import { IAddCardForm } from '@interfaces';
+import type { IAddCardForm } from '@interfaces';
 import styles from './AddCardForm.module.scss';
 
 export function AddCardForm({ setIsAddCardButtonClicked, listId, lastCardPosition }: IAddCardForm): JSX.Element {

@@ -1,7 +1,8 @@
-import React, { JSX } from 'react';
+import type { JSX } from 'react';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { setListToDropId, setDraggedCardNewPosition } from '../../../pages/BoardPage/boardSlice';
-import { IDropArea } from '@interfaces';
+import type { IDropArea } from '@interfaces';
 import styles from './DropArea.module.scss';
 
 export function DropArea({

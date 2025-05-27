@@ -1,8 +1,9 @@
-import React, { JSX, useEffect, useState } from 'react';
+import type { JSX} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { CardRenameForm } from '@components';
-import { ICard } from '@interfaces';
+import type { ICard } from '@interfaces';
 import {
   setIsCardModalOpen,
   setClickedCard,

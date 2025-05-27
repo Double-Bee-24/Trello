@@ -1,4 +1,4 @@
-import { IBoardsList, IResponse } from '@interfaces';
+import type { IBoardsList, IResponse } from '@interfaces';
 import { toast } from 'react-toastify';
 import { instance } from 'src/api/axiosConfig';
 

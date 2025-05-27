@@ -1,4 +1,4 @@
-import { IAuthorizedData } from '@interfaces';
+import type { IAuthorizedData } from '@interfaces';
 import { instance } from 'src/api/axiosConfig';
 
 const createUser = async (credentials: { password: string; email: string }): Promise<void> => {

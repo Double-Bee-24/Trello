@@ -1,10 +1,11 @@
-import React, { JSX, useEffect, useState } from 'react';
+import type { JSX} from 'react';
+import React, { useEffect, useState } from 'react';
 import { createUser } from '@services';
 import { findUser } from '../../../pages/BoardPage/boardThunk';
 import { useAppDispatch } from '../../../app/hooks';
 import styles from './SignUpBox.module.scss';
 import { getPasswordStrength, comparePasswords } from 'src/common/utils/validation';
-import { IUser } from '@interfaces';
+import type { IUser } from '@interfaces';
 
 export function SignUpBox({ setIsLogin }: { setIsLogin: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
   const [email, setEmail] = useState('');

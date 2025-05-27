@@ -1,5 +1,6 @@
-import { useRef, useEffect, JSX } from 'react';
-import { IInputComponent } from '@interfaces';
+import type { JSX } from 'react';
+import { useRef, useEffect } from 'react';
+import type { IInputComponent } from '@interfaces';
 
 export function InputComponent({
   setShouldInputBeOpen = (): void => {},

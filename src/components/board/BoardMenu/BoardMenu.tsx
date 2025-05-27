@@ -1,6 +1,7 @@
-import React, { JSX, useState } from 'react';
+import type { JSX} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IBoardMenu } from '@interfaces';
+import type { IBoardMenu } from '@interfaces';
 import { removeBoard, changeBoardColor } from '@services';
 import { useAppDispatch } from '../../../app/hooks';
 import { triggerBoardRefresh } from '../../../pages/BoardPage/boardSlice';
