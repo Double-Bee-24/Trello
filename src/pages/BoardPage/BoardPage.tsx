@@ -1,19 +1,25 @@
-import type { JSX} from 'react';
+import type { JSX } from 'react';
 import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { BoardRenameForm, List, AddListForm, CardModal, BoardMenu } from '@components';
+import {
+  BoardRenameForm,
+  List,
+  AddListForm,
+  CardModal,
+  BoardMenu,
+} from '@components';
 import { getBoards, refreshList } from '@services';
 import {
   triggerBoardRefresh,
   resetBoardRefreshStatus,
-  fetchBoard,
   setBoardsList,
   setIsDropAreaActive,
   resetUpdatedCards,
 } from './boardSlice';
+import { fetchBoard } from './boardThunk';
 import styles from './BoardPage.module.scss';
 
 export function BoardPage(): JSX.Element {
@@ -28,7 +34,7 @@ export function BoardPage(): JSX.Element {
     shouldBoardBeRefreshed,
     isCardModalOpen,
     updatedCards,
-  } = useAppSelector((state) => state.board);
+  } = useAppSelector(state => state.board);
 
   const boardColor = board.custom.color;
   const { lists } = board;
@@ -57,8 +63,14 @@ export function BoardPage(): JSX.Element {
     setIsAddListButtonClicked(false);
   }
 
-  const listComponents = lists.map((item) => (
-    <List key={item.id} title={item.title} listCards={item.cards} id={item.id} boardId={boardId} />
+  const listComponents = lists.map(item => (
+    <List
+      key={item.id}
+      title={item.title}
+      listCards={item.cards}
+      id={item.id}
+      boardId={boardId}
+    />
   ));
 
   const boardItemStyle = {
@@ -81,10 +93,27 @@ export function BoardPage(): JSX.Element {
   };
 
   return (
-    <div className={styles.board_item} style={boardItemStyle} onDrop={handleDrop} onDragOver={handleDragOver}>
+    <div
+      className={styles.board_item}
+      style={boardItemStyle}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+    >
       <div className={styles.title_container}>
-        <div className={`${styles.title_wrapper} ${isTitleClicked ? styles.hidden : ''}`} onClick={handleClick}>
-          {isTitleClicked ? <BoardRenameForm setIsTitleClicked={setIsTitleClicked} title={board.title} /> : board.title}
+        <div
+          className={`${styles.title_wrapper} ${
+            isTitleClicked ? styles.hidden : ''
+          }`}
+          onClick={handleClick}
+        >
+          {isTitleClicked ? (
+            <BoardRenameForm
+              setIsTitleClicked={setIsTitleClicked}
+              title={board.title}
+            />
+          ) : (
+            board.title
+          )}
         </div>
         <div
           className={styles.board_menu_button_wrapper}
@@ -95,15 +124,25 @@ export function BoardPage(): JSX.Element {
           <img
             src="/assets/three-dots.png"
             alt="menu button"
-            className={`${styles.board_menu_button} ${isBoardMenuOpened ? styles.menu_button_hidden : ''}`}
+            className={`${styles.board_menu_button} ${
+              isBoardMenuOpened ? styles.menu_button_hidden : ''
+            }`}
           />
         </div>
-        {isBoardMenuOpened && <BoardMenu boardId={boardId} setIsBoardMenuOpened={setIsBoardMenuOpened} />}
+        {isBoardMenuOpened && (
+          <BoardMenu
+            boardId={boardId}
+            setIsBoardMenuOpened={setIsBoardMenuOpened}
+          />
+        )}
       </div>
       <div className={styles.lists_container}>
         {listComponents}
         {isAddListButtonClicked ? (
-          <AddListForm lastListPosition={lists.length} setIsAddListButtonClicked={setIsAddListButtonClicked} />
+          <AddListForm
+            lastListPosition={lists.length}
+            setIsAddListButtonClicked={setIsAddListButtonClicked}
+          />
         ) : (
           <button
             className={styles.add_list_button}

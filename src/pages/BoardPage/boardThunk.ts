@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { instance, findUserInstance } from '../../api/axiosConfig';
 import type { IBoard, IUser } from '@interfaces';
 
-export const fetchBoard = createAsyncThunk(
+const fetchBoard = createAsyncThunk(
   'board/fetchBoard',
   async ({
     boardId,
@@ -14,26 +14,36 @@ export const fetchBoard = createAsyncThunk(
   }): Promise<IBoard | undefined | [IBoard, boolean]> => {
     try {
       const response: IBoard = await instance.get(`/board/${boardId}`);
-      return isSelectedBoard ? [response, isSelectedBoard] : response;
+
+      if (isSelectedBoard) {
+        return [response, isSelectedBoard];
+      }
+      return response;
     } catch (error) {
-      console.error('Failed to fetch board: ', error);
-      toast.error('Error loading board list');
+      console.error('Failed to fetch data: ', error);
+
+      toast('Помилка завантаження списку дошок');
+
       return undefined;
     }
   }
 );
 
-export const findUser = createAsyncThunk(
+const findUser = createAsyncThunk(
   'board/findUser',
-  async (emailOrUsername: { emailOrUsername: string }): Promise<IUser[] | undefined> => {
+  async (emailOrUsername: {
+    emailOrUsername: string;
+  }): Promise<IUser[] | undefined> => {
     try {
       const response: IUser[] = await findUserInstance.get('user', {
         params: { emailOrUsername: emailOrUsername.emailOrUsername },
       });
       return response;
     } catch (error) {
-      console.error('Failed to find user: ', error);
+      console.error('Error while trying to find a user: ', error);
       return undefined;
     }
   }
 );
+
+export { findUser, fetchBoard };

@@ -1,190 +1,9 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
-import { instance, findUserInstance } from '../../api/axiosConfig';
-import type { ILists } from '../../common/interfaces/ILists';
-import type { ILightCard } from '../../common/interfaces/ILightCard';
-import type { IBoardsList } from '../../common/interfaces/IBoardsList';
-import type { IBoard } from '../../common/interfaces/IBoard';
-import type { IUser } from '../../common/interfaces/IUser';
-import type { IUpdatedCard } from '../../common/interfaces/IUpdatedCard';
+import { createSlice } from '@reduxjs/toolkit';
+import { initialState } from './boardInitialState';
 import 'react-toastify/dist/ReactToastify.css';
-
-// Define a type for the slice state
-export interface BoardState {
-  isCardModalOpen: boolean;
-
-  clickedCard: {
-    id: number;
-    listId: number;
-    title: string;
-    description: string | undefined;
-    parentList: string;
-    cardPosition: number;
-  };
-
-  shouldBoardBeRefreshed: boolean;
-
-  lists: ILists[];
-  boardId: number;
-
-  boardsList: IBoardsList[];
-
-  cards: ILightCard[];
-
-  wholeBoard: IBoard;
-  selectedBoard: IBoard;
-
-  draggedCardName: string;
-  draggedCardId: number;
-  draggedCardNewPosition: number;
-
-  listToDropId: number;
-
-  isDropAreaActive: boolean;
-
-  updatedCards: IUpdatedCard[];
-
-  user: IUser;
-
-  pathname: string;
-}
-
-// Define the initial state using that type
-const initialState: BoardState = {
-  isCardModalOpen: false,
-
-  clickedCard: {
-    id: 0,
-    listId: 0,
-    title: '',
-    description: '',
-    parentList: '',
-    cardPosition: 0,
-  },
-
-  shouldBoardBeRefreshed: false,
-
-  lists: [],
-  boardId: 0,
-
-  boardsList: [],
-
-  cards: [],
-
-  wholeBoard: {
-    title: '',
-    custom: {
-      color: '#ffffff',
-    },
-    lists: [
-      {
-        id: 0,
-        title: '',
-        position: 0,
-        cards: [
-          {
-            id: 0,
-            title: '',
-            position: 0,
-            description: '',
-          },
-        ],
-      },
-    ],
-    users: [
-      {
-        id: 0,
-        username: '',
-      },
-    ],
-  },
-
-  selectedBoard: {
-    title: '',
-    custom: {
-      color: '#ffffff',
-    },
-    lists: [
-      {
-        id: 0,
-        title: '',
-        position: 0,
-        cards: [
-          {
-            id: 0,
-            title: '',
-            position: 0,
-            description: '',
-          },
-        ],
-      },
-    ],
-    users: [
-      {
-        id: 0,
-        username: '',
-      },
-    ],
-  },
-
-  draggedCardName: '',
-
-  draggedCardId: 0,
-
-  listToDropId: 0,
-
-  isDropAreaActive: false,
-
-  draggedCardNewPosition: -2,
-
-  updatedCards: [],
-
-  user: { id: 0, username: '' },
-
-  pathname: '',
-};
-
-export const fetchBoard = createAsyncThunk(
-  'board/fetchBoard',
-  async ({
-    boardId,
-    isSelectedBoard,
-  }: {
-    boardId: string | undefined;
-    isSelectedBoard?: boolean;
-  }): Promise<IBoard | undefined | [IBoard, boolean]> => {
-    try {
-      const response: IBoard = await instance.get(`/board/${boardId}`);
-
-      if (isSelectedBoard) {
-        return [response, isSelectedBoard];
-      }
-      return response;
-    } catch (error) {
-      console.error('Failed to fetch data: ', error);
-
-      toast('Помилка завантаження списку дошок');
-
-      return undefined;
-    }
-  }
-);
-
-export const findUser = createAsyncThunk(
-  'board/findUser',
-  async (emailOrUsername: { emailOrUsername: string }): Promise<IUser[] | undefined> => {
-    try {
-      const response: IUser[] = await findUserInstance.get('user', {
-        params: { emailOrUsername: emailOrUsername.emailOrUsername },
-      });
-      return response;
-    } catch (error) {
-      console.error('Error while trying to find a user: ', error);
-      return undefined;
-    }
-  }
-);
+import type { ILightCard, IBoardsList, IUpdatedCard } from '@interfaces';
+import { fetchBoard, findUser } from './boardThunk';
 
 export const boardSlice = createSlice({
   name: 'board',
@@ -236,8 +55,10 @@ export const boardSlice = createSlice({
     setUpdatedCards: (state, action: PayloadAction<IUpdatedCard[]>): void => {
       const newCards = action.payload;
 
-      newCards.forEach((card) => {
-        const existingCard = state.updatedCards.find((item) => item.id === card.id);
+      newCards.forEach(card => {
+        const existingCard = state.updatedCards.find(
+          item => item.id === card.id
+        );
 
         if (existingCard !== undefined) {
           // refresh data
@@ -248,7 +69,7 @@ export const boardSlice = createSlice({
           state.updatedCards.push(card);
         }
       });
-      state.updatedCards = state.updatedCards.filter((item) => item.id !== 0);
+      state.updatedCards = state.updatedCards.filter(item => item.id !== 0);
     },
     setPathname: (state, action: PayloadAction<string>): void => {
       state.pathname = action.payload;
@@ -257,7 +78,7 @@ export const boardSlice = createSlice({
       state.updatedCards = [];
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder.addCase(fetchBoard.fulfilled, (state, action) => {
       // selectedBoard represents the board in CardActionMenu. It gaves options to which list move a card
       if (Array.isArray(action.payload)) {
